@@ -1,5 +1,4 @@
-import DrawPlayer from './draw_player.js';
-// import LeftSidebar from './leftsidebar_container';
+import Player from './player.js';
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -8,10 +7,11 @@ document.addEventListener("DOMContentLoaded", () => {
   canvas.width = 960;
   canvas.height = 640;
 
-  // const game = new Game();
   // new GameView(game, ctx).start();
 
-  setInterval(DrawPlayer(context), 10);
+  const player = new Player(context);
+
+  setInterval(player.draw, 10);
 
 });
 

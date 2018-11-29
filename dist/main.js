@@ -86,18 +86,6 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/draw_player.js":
-/*!****************************!*\
-  !*** ./src/draw_player.js ***!
-  \****************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n\nconst DrawPlayer = (context, maxHeight=50, angle=0, base=220) => () => {\n  // console.log('refreshing');\n\n  const height = maxHeight - 10*Math.cos(angle);\n  const y = base + 10 * Math.cos(angle);\n  angle += 0.1;\n\n  context.clearRect(0, 0, 960, 640);\n\n  context.beginPath();\n\n  context.rect(480, y, 30, height);\n  context.fillStyle = \"#FFFFFF\";\n  context.fill();\n\n  context.closePath();\n\n};\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (DrawPlayer);\n\n\n//# sourceURL=webpack:///./src/draw_player.js?");
-
-/***/ }),
-
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
@@ -106,7 +94,19 @@ eval("__webpack_require__.r(__webpack_exports__);\n\nconst DrawPlayer = (context
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _draw_player_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./draw_player.js */ \"./src/draw_player.js\");\n\n// import LeftSidebar from './leftsidebar_container';\n\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  const canvas = document.getElementById('kukulkanvas');\n  const context = canvas.getContext('2d');\n  canvas.width = 960;\n  canvas.height = 640;\n\n  // const game = new Game();\n  // new GameView(game, ctx).start();\n\n  setInterval(Object(_draw_player_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(context), 10);\n\n});\n\n// const draw = (context, maxHeight=50, angle=0, base=220) => () => {\n//   console.log('refreshing');\n//\n//   const height = maxHeight - 10*Math.cos(angle);\n//   y = base + 10*Math.cos(angle);\n//   angle += 0.1;\n//\n//   context.clearRect(0, 0, 960, 640);\n//\n//   context.beginPath();\n//\n//   context.rect(480, y, 30, height);\n//   context.fillStyle = \"#FFFFFF\";\n//   context.fill();\n//\n//   context.closePath();\n//\n// };\n\n\n\n\n\n\n// context.arc(480, 320, 320, start_angle, end_angle, false);\n// context.fillStyle = \"#FFFFFF\";\n// context.fill();\n\n// context.rect(center_x, center_y, width, height);\n// context.arc(center_x, center_y, radius, start_angle, end_angle, reverse?)\n\n// draw just a line\n// context.strokeStyle = \"rgba(255, 0, 255, 50)\";\n// context.stroke();\n\n// as opposed to stroke for outlines...\n// context.fillStyle = \"#FFFFFF\";\n// context.fill();\n\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _player_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./player.js */ \"./src/player.js\");\n\n\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  const canvas = document.getElementById('kukulkanvas');\n  const context = canvas.getContext('2d');\n  canvas.width = 960;\n  canvas.height = 640;\n\n  // new GameView(game, ctx).start();\n\n  const player = new _player_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"](context);\n\n  setInterval(player.draw, 10);\n\n});\n\n// const draw = (context, maxHeight=50, angle=0, base=220) => () => {\n//   console.log('refreshing');\n//\n//   const height = maxHeight - 10*Math.cos(angle);\n//   y = base + 10*Math.cos(angle);\n//   angle += 0.1;\n//\n//   context.clearRect(0, 0, 960, 640);\n//\n//   context.beginPath();\n//\n//   context.rect(480, y, 30, height);\n//   context.fillStyle = \"#FFFFFF\";\n//   context.fill();\n//\n//   context.closePath();\n//\n// };\n\n\n\n\n\n\n// context.arc(480, 320, 320, start_angle, end_angle, false);\n// context.fillStyle = \"#FFFFFF\";\n// context.fill();\n\n// context.rect(center_x, center_y, width, height);\n// context.arc(center_x, center_y, radius, start_angle, end_angle, reverse?)\n\n// draw just a line\n// context.strokeStyle = \"rgba(255, 0, 255, 50)\";\n// context.stroke();\n\n// as opposed to stroke for outlines...\n// context.fillStyle = \"#FFFFFF\";\n// context.fill();\n\n\n//# sourceURL=webpack:///./src/index.js?");
+
+/***/ }),
+
+/***/ "./src/player.js":
+/*!***********************!*\
+  !*** ./src/player.js ***!
+  \***********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\nclass Player {\n\n  constructor(context) {\n    this.context = context;\n    this.maxHeight = 50;\n    this.angle = 0;\n    this.baseY = 220;\n    this.draw = this.draw.bind(this);\n  }\n\n  draw() {\n    const height = this.maxHeight - 10*Math.cos(this.angle);\n    const y = this.baseY + 10 * Math.cos(this.angle);\n    this.angle += 0.1;\n\n    this.context.clearRect(0, 0, 960, 640);\n\n    this.context.beginPath();\n\n    this.context.rect(480, y, 30, height);\n    this.context.fillStyle = \"#FFFFFF\";\n    this.context.fill();\n\n    this.context.closePath();\n  }\n\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Player);\n\n\n//# sourceURL=webpack:///./src/player.js?");
 
 /***/ })
 
