@@ -1,0 +1,34 @@
+{
+  "name": "kukulkan",
+  "version": "1.0.0",
+  "description": "A browser game heavily based on Action Button's Ziggurat",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "engines": {
+    "node": "8.4.0",
+    "npm": "6.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack --mode=development --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vanduynamite/kukulkan"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vanduynamite/MuTube/issues"
+  },
+  "homepage": "https://github.com/vanduynamite/kukulkan#readme",
+  "dependencies": {
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2"
+  },
+  "devDependencies": {}
+}
