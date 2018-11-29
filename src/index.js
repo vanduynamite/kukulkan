@@ -1,4 +1,5 @@
-import Player from './player.js';
+import Game from './game.js';
+import GameRender from './game_render.js';
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -7,37 +8,11 @@ document.addEventListener("DOMContentLoaded", () => {
   canvas.width = 960;
   canvas.height = 640;
 
-  // new GameView(game, ctx).start();
+  const game = new Game(context);
+  const gameRender = new GameRender(game, context);
 
-  const player = new Player(context);
-
-  setInterval(player.draw, 10);
-
+  gameRender.startGame();
 });
-
-// const draw = (context, maxHeight=50, angle=0, base=220) => () => {
-//   console.log('refreshing');
-//
-//   const height = maxHeight - 10*Math.cos(angle);
-//   y = base + 10*Math.cos(angle);
-//   angle += 0.1;
-//
-//   context.clearRect(0, 0, 960, 640);
-//
-//   context.beginPath();
-//
-//   context.rect(480, y, 30, height);
-//   context.fillStyle = "#FFFFFF";
-//   context.fill();
-//
-//   context.closePath();
-//
-// };
-
-
-
-
-
 
 // context.arc(480, 320, 320, start_angle, end_angle, false);
 // context.fillStyle = "#FFFFFF";
