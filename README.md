@@ -1,8 +1,17 @@
 # Kukulkan
-The Mayan god Kukulkan has sent his alien minions to take over the earth! You are the last person alive, and stuck at the top of a pyramid. Good thing you have your trusty laser cannon!
+The Mayan god Kukulkan has sent his alien minions to take over the earth. You are the last person alive, stuck at the top of a temple...good thing you have your trusty laser cannon!
 
 ### Gameplay
-Aliens will walk from the edges of the screen up the pyramid. The game ends if any of them touch you. You can blast them with your laser cannon though - hold the left or right arrow key to charge up your gun, then release to fire the shot. The longer you hold the key, the more powerful the shot.
+Aliens will walk from the edges of the screen up the temple. The game ends if any of them touch you. You can blast them with your laser cannon though - hold the left or right arrow key to charge up your gun, then release to fire the shot. The longer you hold the key, the more powerful the shot.
+
+### MVPs
+* Page renders with styled background and contact information
+* Game renders player, temple, aliens, and gun fire
+* Gunshots will charge and fire as the left or right arrow key is pressed
+* Aliens will move from the edges of the screen up the temple steps
+* Contact of an alien-player will end the game
+* Contact of gunfire with alien will destroy the alien
+* Alien rate, strength, and speed will increase over time
 
 ### Credit
 Kukulkan is heavily based on the iOS game [ZiGGURAT][ziggurat_wiki] by [Action Button Entertainment][abe_wiki].
