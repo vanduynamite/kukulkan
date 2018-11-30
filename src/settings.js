@@ -1,5 +1,5 @@
 
-export const START_SCORE = 0;
+export const START_SCORE = 50;
 
 
 // how much leeway the hitboxes have
@@ -76,12 +76,34 @@ export const bulletColor = (strength) => {
   }
 };
 
+export const alienColor = (health) => {
+  switch (true) {
+    case (health <= 1):
+      return '#ffeb3b';
+    case (health <= 2):
+      return '#ffc107';
+    case (health <= 3):
+      return '#ff5722';
+    default:
+      return '#ffffff';
+  }
+};
 
+
+export const GAME_WIDTH = 960;
+
+// Pyramid dimensions
+export const PYR_BOTTOM = 450;
+export const PYR_LEFT = 72;
+export const PYR_DY = 80;
+const PYR_SLOPES = 3;
+export const PYR_DX = (GAME_WIDTH - 2 * PYR_LEFT) / (PYR_SLOPES * 4 - 1);
 
 // Game dimensions
-export const GAME_WIDTH = 960;
 export const GAME_HEIGHT = 540;
 export const PLAYER_WIDTH = 40;
-export const BULLET_HEIGHT = 160;
+export const PLAYER_HEIGHT = 80;
+export const PLAYER_BASE_HEIGHT = PYR_BOTTOM - PYR_DY * PYR_SLOPES - PLAYER_HEIGHT;
+export const BULLET_HEIGHT = PLAYER_BASE_HEIGHT + 0.35 * PLAYER_HEIGHT;
 export const ALIEN_WIDTH = 40;
 export const ALIEN_HEIGHT = 60;

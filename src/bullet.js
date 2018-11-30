@@ -32,6 +32,14 @@ class Bullet {
     this.color = bulletColor(this.strength);
     this.vel = [bulletVelX(this.dir, this.radius), 0];
   }
+  
+  step(timeStep) {
+    if (this.moving) {
+      this.pos[0] += this.vel[0] * timeStep;
+      this.pos[1] += this.vel[1] * timeStep;
+      this.vel[1] += GRAVITY * timeStep;
+    }
+  }
 
   draw(ctx) {
     ctx.beginPath();
@@ -39,14 +47,6 @@ class Bullet {
     ctx.fillStyle = this.color;
     ctx.fill();
     ctx.closePath();
-  }
-
-  step(timeStep) {
-    if (this.moving) {
-      this.pos[0] += this.vel[0] * timeStep;
-      this.pos[1] += this.vel[1] * timeStep;
-      this.vel[1] += GRAVITY * timeStep;
-    }
   }
 
 }

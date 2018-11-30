@@ -6,6 +6,11 @@ import {
   ALIEN_HEIGHT,
   ALIEN_WIDTH,
   GAME_WIDTH,
+  alienColor,
+  PYR_BOTTOM,
+  PYR_LEFT,
+  PYR_DX,
+  PYR_DY,
 } from './settings';
 
 class Alien {
@@ -14,7 +19,7 @@ class Alien {
     this.dir = Math.sign(Math.random() - 0.5);
 
     this.left = (GAME_WIDTH - ALIEN_WIDTH) / 2 - this.dir * (GAME_WIDTH + ALIEN_WIDTH) / 2;
-    this.bottom = Game.baseY - ALIEN_HEIGHT;
+    this.bottom = PYR_BOTTOM - ALIEN_HEIGHT;
 
     this.health = alienHealth(difficulty);
     this.speed = alienSpeed(difficulty) * this.dir;
@@ -51,6 +56,25 @@ class Alien {
     return false;
   }
 
+  step(timeStep) {
+    this.left += this.speed * timeStep;
+    let toe = this.left + ALIEN_WIDTH * 0.5;
+    const base = GAME_WIDTH / 2 - (GAME_WIDTH / 2 - PYR_LEFT) * this.dir;
+    const dx = PYR_DX * this.dir;
+
+    if ((toe > base + 0 * dx && toe <= base + 1 * dx) ||
+        (toe > base + 2 * dx && toe <= base + 3 * dx) ||
+        (toe > base + 4 * dx && toe <= base + 5 * dx)) {
+      this.bottom -= PYR_DY / PYR_DX * this.speed * timeStep;
+    }
+
+    if ((toe < base + 0 * dx && toe >= base + 1 * dx) ||
+        (toe < base + 2 * dx && toe >= base + 3 * dx) ||
+        (toe < base + 4 * dx && toe >= base + 5 * dx)) {
+      this.bottom += PYR_DY / PYR_DX * this.speed * timeStep;
+    }
+
+  }
 
   draw(ctx) {
     ctx.beginPath();
@@ -60,51 +84,6 @@ class Alien {
     ctx.closePath();
   }
 
-  step(timeStep) {
-    this.left += this.speed * timeStep;
-    let toe = this.left + ALIEN_WIDTH * 0.5;
-    const base = GAME_WIDTH / 2 - (GAME_WIDTH / 2 - Game.baseX) * this.dir;
-    const dx = Game.pyramidDX * this.dir;
-
-
-    if ((toe > base + 0 * dx && toe <= base + 1 * dx) ||
-        (toe > base + 2 * dx && toe <= base + 3 * dx) ||
-        (toe > base + 4 * dx && toe <= base + 5 * dx)) {
-      this.bottom -= Game.pyramidDY / Game.pyramidDX * this.speed * timeStep;
-    }
-
-
-    if ((toe < base + 0 * dx && toe >= base + 1 * dx) ||
-        (toe < base + 2 * dx && toe >= base + 3 * dx) ||
-        (toe < base + 4 * dx && toe >= base + 5 * dx)) {
-      this.bottom += Game.pyramidDY / Game.pyramidDX * this.speed * timeStep;
-    }
-
-
-    // TODO: implement a formulaic approach
-    // const slope = Game.slope;
-    //
-    // const foot = Math.max(toe - 84 * this.dir, 0);
-    // const onSlope = (Math.floor(foot / Game.pyramidDX) + 1) % 2;
-    // const stepNum = Math.floor((Math.floor(foot / Game.pyramidDX) + 1) / 2);
-    // const test = foot % Game.pyramidDX * slope * onSlope;
-    // // console.log(test + stepNum * Game.pyramidDY);
-    // this.bottom = Game.baseY - (test + stepNum * Game.pyramidDY) - ALIEN_HEIGHT;
-  }
-
 }
-
-const alienColor = (health) => {
-  switch (true) {
-    case (health <= 1):
-      return '#ffeb3b';
-    case (health <= 2):
-      return '#ffc107';
-    case (health <= 3):
-      return '#ff5722';
-    default:
-      return '#ffffff';
-  }
-};
 
 export default Alien;

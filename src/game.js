@@ -7,6 +7,10 @@ import {
   MAX_BULLETS,
   GAME_WIDTH,
   GAME_HEIGHT,
+  PYR_BOTTOM,
+  PYR_LEFT,
+  PYR_DX,
+  PYR_DY,
 } from './settings';
 
 class Game {
@@ -83,41 +87,22 @@ class Game {
     }
   }
 
-  draw(ctx) {
-    ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-    this.allObjects().forEach(obj => obj.draw(ctx));
-
-    const startY = Game.baseY;
-    const startX = Game.baseX;
-    const dy = Game.pyramidDY;
-    const dx = Game.pyramidDX;
-
-    ctx.beginPath();
-    ctx.moveTo(0, startY - 0 * dy);
-    ctx.lineTo(startX + 0 * dx, startY - 0 * dy);
-    ctx.lineTo(startX + 1 * dx, startY - 1 * dy);
-    ctx.lineTo(startX + 2 * dx, startY - 1 * dy);
-    ctx.lineTo(startX + 3 * dx, startY - 2 * dy);
-    ctx.lineTo(startX + 4 * dx, startY - 2 * dy);
-    ctx.lineTo(startX + 5 * dx, startY - 3 * dy);
-    ctx.lineTo(startX + 6 * dx, startY - 3 * dy);
-    ctx.lineTo(startX + 7 * dx, startY - 2 * dy);
-    ctx.lineTo(startX + 8 * dx, startY - 2 * dy);
-    ctx.lineTo(startX + 9 * dx, startY - 1 * dy);
-    ctx.lineTo(startX + 10 * dx, startY - 1 * dy);
-    ctx.lineTo(startX + 11 * dx, startY - 0 * dy);
-    ctx.lineTo(960, startY);
-    ctx.stroke();
-    ctx.closePath();
-  }
-
-  step(timeStep, gameTime) {
+  step(timeStep, gameTime, ctx) {
     this.gameTime = gameTime;
     this.addAliens();
     this.processBullets();
     this.allObjects().forEach(obj => obj.step(timeStep));
+
+    this.draw(ctx);
+
     this.checkBulletCollisions();
     this.checkPlayerCollisions();
+  }
+
+  draw(ctx) {
+    ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+    this.allObjects().forEach(obj => obj.draw(ctx));
+    this.drawPyramid(ctx);
   }
 
   checkBulletCollisions() {
@@ -174,12 +159,26 @@ class Game {
 
   }
 
-}
+  drawPyramid(ctx) {
+    ctx.beginPath();
+    ctx.moveTo(0, PYR_BOTTOM - 0 * PYR_DY);
+    ctx.lineTo(PYR_LEFT + 0 * PYR_DX, PYR_BOTTOM - 0 * PYR_DY);
+    ctx.lineTo(PYR_LEFT + 1 * PYR_DX, PYR_BOTTOM - 1 * PYR_DY);
+    ctx.lineTo(PYR_LEFT + 2 * PYR_DX, PYR_BOTTOM - 1 * PYR_DY);
+    ctx.lineTo(PYR_LEFT + 3 * PYR_DX, PYR_BOTTOM - 2 * PYR_DY);
+    ctx.lineTo(PYR_LEFT + 4 * PYR_DX, PYR_BOTTOM - 2 * PYR_DY);
+    ctx.lineTo(PYR_LEFT + 5 * PYR_DX, PYR_BOTTOM - 3 * PYR_DY);
+    ctx.lineTo(PYR_LEFT + 6 * PYR_DX, PYR_BOTTOM - 3 * PYR_DY);
+    ctx.lineTo(PYR_LEFT + 7 * PYR_DX, PYR_BOTTOM - 2 * PYR_DY);
+    ctx.lineTo(PYR_LEFT + 8 * PYR_DX, PYR_BOTTOM - 2 * PYR_DY);
+    ctx.lineTo(PYR_LEFT + 9 * PYR_DX, PYR_BOTTOM - 1 * PYR_DY);
+    ctx.lineTo(PYR_LEFT + 10 * PYR_DX, PYR_BOTTOM - 1 * PYR_DY);
+    ctx.lineTo(PYR_LEFT + 11 * PYR_DX, PYR_BOTTOM - 0 * PYR_DY);
+    ctx.lineTo(960, PYR_BOTTOM);
+    ctx.stroke();
+    ctx.closePath();
+  }
 
-Game.baseY = 450;
-Game.baseX = 84;
-Game.pyramidDY = 80;
-Game.pyramidDX = 72;
-Game.slope = Game.pyramidDY / Game.pyramidDX;
+}
 
 export default Game;

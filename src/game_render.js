@@ -14,8 +14,7 @@ class GameRender {
 
   animate(time) {
     const timeStep = time - this.prevTime || 0;
-    this.game.step(timeStep, time);
-    this.game.draw(this.ctx);
+    this.game.step(timeStep, time, this.ctx);
     this.prevTime = time;
 
     requestAnimationFrame(this.animate.bind(this));
