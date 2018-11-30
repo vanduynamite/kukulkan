@@ -6,7 +6,7 @@ import {
   ALIEN_HEIGHT,
   ALIEN_WIDTH,
   GAME_WIDTH,
-  alienColor,
+  alienSpriteMap,
   PYR_BOTTOM,
   PYR_LEFT,
   PYR_DX,
@@ -15,7 +15,7 @@ import {
 
 class Alien {
 
-  constructor(difficulty) {
+  constructor(difficulty, imgs) {
     this.dir = Math.sign(Math.random() - 0.5);
 
     this.left = (GAME_WIDTH - ALIEN_WIDTH) / 2 - this.dir * (GAME_WIDTH + ALIEN_WIDTH) / 2;
@@ -23,7 +23,7 @@ class Alien {
 
     this.health = alienHealth(difficulty);
     this.speed = alienSpeed(difficulty) * this.dir;
-    this.color = alienColor(this.health);
+    this.imgObj = alienSpriteMap(this.health, imgs);
   }
 
   collidedWithPlayer(player) {
@@ -49,7 +49,6 @@ class Alien {
         bullet.pos[1] > this.bottom - bullet.radius) {
 
       this.health -= bullet.strength;
-      this.color = alienColor(this.health);
       return true;
     }
 
@@ -76,12 +75,24 @@ class Alien {
 
   }
 
-  draw(ctx) {
-    ctx.beginPath();
-    ctx.rect(this.left, this.bottom, ALIEN_WIDTH, ALIEN_HEIGHT);
-    ctx.fillStyle = this.color;
-    ctx.fill();
-    ctx.closePath();
+  draw(ctx, frame) {
+    const sprite = Math.floor(frame / (60 / this.imgObj.frames));
+
+    const sx = this.imgObj.width * sprite;
+    const sy = this.imgObj.height * this.imgObj.row;
+    const sw = this.imgObj.width;
+    const sh = this.imgObj.height;
+    const dx = this.left - this.imgObj.width / 2 + this.imgObj.sideBuffer;
+    const dy = this.bottom - this.imgObj.height / 2 + this.imgObj.bottomBuffer;
+    const dw = ALIEN_WIDTH * 3.5;
+    const dh = ALIEN_HEIGHT * 2;
+    ctx.drawImage(this.imgObj.img, sx, sy, sw, sh, dx, dy, dw, dh)
+
+    // ctx.beginPath();
+    // ctx.rect(this.left, this.bottom, ALIEN_WIDTH, ALIEN_HEIGHT);
+    // // ctx.fillStyle = this.color;
+    // ctx.stroke();
+    // ctx.closePath();
   }
 
 }

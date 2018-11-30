@@ -30,6 +30,40 @@ class Game {
 
     this.leftDown = false;
     this.rightDown = false;
+
+    this.snakes = {
+      snake1: { img: new Image() },
+      snake2: { img: new Image() },
+      snake3: { img: new Image() },
+    };
+
+    this.setupImages();
+  }
+
+  setupImages() {
+    this.snakes.snake1.img.src = './dist/assets/snake1.png';
+    this.snakes.snake1.frames = 6;
+    this.snakes.snake1.width = 150;
+    this.snakes.snake1.height = 120;
+    this.snakes.snake1.row = 2;
+    this.snakes.snake1.sideBuffer = 12;
+    this.snakes.snake1.bottomBuffer = 11;
+
+    this.snakes.snake2.img.src = './dist/assets/snake2.png';
+    this.snakes.snake2.frames = 4;
+    this.snakes.snake2.width = 165;
+    this.snakes.snake2.height = 150;
+    this.snakes.snake2.row = 2;
+    this.snakes.snake2.sideBuffer = 20;
+    this.snakes.snake2.bottomBuffer = 50;
+
+    this.snakes.snake3.img.src = './dist/assets/snake3.png';
+    this.snakes.snake3.frames = 8;
+    this.snakes.snake3.width = 200;
+    this.snakes.snake3.height = 175;
+    this.snakes.snake3.row = 2;
+    this.snakes.snake3.sideBuffer = 80;
+    this.snakes.snake3.bottomBuffer = 28;
   }
 
   keyDownHandler(e) {
@@ -54,7 +88,7 @@ class Game {
 
   addAlien() {
     this.timeLastAlienAdded = this.gameTime;
-    this.aliens.push(new Alien(this.difficulty));
+    this.aliens.push(new Alien(this.difficulty, this.snakes));
   }
 
   processBullets() {
@@ -87,21 +121,21 @@ class Game {
     }
   }
 
-  step(timeStep, gameTime, ctx) {
+  step(timeStep, gameTime, ctx, frame) {
     this.gameTime = gameTime;
     this.addAliens();
     this.processBullets();
     this.allObjects().forEach(obj => obj.step(timeStep));
 
-    this.draw(ctx);
+    this.draw(ctx, frame);
 
     this.checkBulletCollisions();
     this.checkPlayerCollisions();
   }
 
-  draw(ctx) {
+  draw(ctx, frame) {
     ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-    this.allObjects().forEach(obj => obj.draw(ctx));
+    this.allObjects().forEach(obj => obj.draw(ctx, frame));
     this.drawPyramid(ctx);
   }
 
@@ -150,7 +184,7 @@ class Game {
 
     if (this.gameover) {
       this.aliens = [];
-      this.score = 0;
+      this.score = START_SCORE;
       calculateDifficulty(this);
       this.gameover = false;
     } else {

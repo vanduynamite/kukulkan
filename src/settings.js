@@ -1,5 +1,5 @@
 
-export const START_SCORE = 50;
+export const START_SCORE = 0;
 
 
 // how much leeway the hitboxes have
@@ -58,7 +58,7 @@ export const START_RADIUS = 4;
 export const GRAVITY = 0.0004;
 export const MAX_BULLETS = 4;
 export const MAX_SIZE = 20;
-export const MAX_FORM_TIME = 1000;
+export const MAX_FORM_TIME = 1000; // decrease this by level?
 export const NUM_SIZES = 10;
 export const FORM_INTERVAL = MAX_FORM_TIME / (NUM_SIZES - 1);
 export const bulletVelX = (direction, radius) => {
@@ -76,16 +76,16 @@ export const bulletColor = (strength) => {
   }
 };
 
-export const alienColor = (health) => {
+export const alienSpriteMap = (health, imgs) => {
   switch (true) {
     case (health <= 1):
-      return '#ffeb3b';
+      return imgs.snake3;
     case (health <= 2):
-      return '#ffc107';
+      return imgs.snake2;
     case (health <= 3):
-      return '#ff5722';
+      return imgs.snake1;
     default:
-      return '#ffffff';
+      return imgs.snake3;
   }
 };
 
@@ -105,5 +105,5 @@ export const PLAYER_WIDTH = 40;
 export const PLAYER_HEIGHT = 80;
 export const PLAYER_BASE_HEIGHT = PYR_BOTTOM - PYR_DY * PYR_SLOPES - PLAYER_HEIGHT;
 export const BULLET_HEIGHT = PLAYER_BASE_HEIGHT + 0.35 * PLAYER_HEIGHT;
-export const ALIEN_WIDTH = 40;
-export const ALIEN_HEIGHT = 60;
+export const ALIEN_WIDTH = 52;
+export const ALIEN_HEIGHT = 80;
