@@ -10,12 +10,13 @@ class Game {
     this.gameTime = 0;
     this.aliens = [];
 
-    this.score = 0;
+    this.score = 20;
+    this.gameover = false;
     calculateDifficulty(this);
     this.timeLastAlienAdded = -this.addAlienInterval;
 
     this.bullets = [];
-    this.maxBullets = 10;
+    this.maxBullets = 4;
 
     this.leftDown = false;
     this.rightDown = false;
@@ -156,14 +157,22 @@ class Game {
     const newAliens = [];
 
     this.aliens.forEach(alien => {
-      if (!alien.collidedWithPlayer(this.player)) {
-        newAliens.push(alien);
+      if (alien.collidedWithPlayer(this.player)) {
+        this.gameover = true;
       } else {
-        this.score++;
+        newAliens.push(alien);
       }
     });
 
-    this.aliens = newAliens;
+    if (this.gameover) {
+      this.aliens = [];
+      this.score = 0;
+      calculateDifficulty(this);
+      this.gameover = false;
+    } else {
+      this.aliens = newAliens;
+    }
+
   }
 
 }

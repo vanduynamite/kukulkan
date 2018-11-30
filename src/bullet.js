@@ -1,3 +1,7 @@
+import {
+  bulletStrength,
+  bulletColor,
+} from './difficulty';
 
 class Bullet {
 
@@ -26,7 +30,8 @@ class Bullet {
     const bulletLevel = Math.floor(timePassed / this.timeInterval) + 1;
 
     this.radius = bulletLevel * (this.maxSize / (this.numSizes));
-    this.strength = Math.floor((this.radius - 1) / 10) + 1;
+    this.strength = bulletStrength(this.radius);
+    this.color = bulletColor(this.strength);
     this.vel = [this.direction * this.radius ** 1.25 * 0.01, 0];
   }
 

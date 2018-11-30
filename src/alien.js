@@ -2,6 +2,7 @@ import Game from './game';
 import {
   alienHealth,
   alienSpeed,
+  alienColor,
 } from './difficulty';
 
 class Alien {
@@ -15,10 +16,10 @@ class Alien {
     this.bottom = Game.baseY - this.height;
 
 
-    // 0.03 slow, 0.06 medium, 0.1 fast, 0.15 very fast, 0.2 sprinter
-    this.speed = 0.03 * this.direction;
-    this.health = 1;
-    this.color = "#FFFFFF";
+
+    this.health = alienHealth(difficulty);
+    this.speed = alienSpeed(difficulty) * this.direction;
+    this.color = alienColor(this.health);
   }
 
   draw(ctx) {
@@ -86,6 +87,7 @@ class Alien {
         bullet.pos[1] > bottom) {
 
       this.health -= bullet.strength;
+      this.color = alienColor(this.health);
       return true;
     }
 
