@@ -1,16 +1,17 @@
 
 class Bullet {
 
-  constructor(game, radius, direction) {
+  constructor(direction, timeCreated) {
     this.direction = direction;
-    this.pos = [480 + 20 * direction, 160];
-    this.radius = radius; // min 5, max 20
-    this.vel = [direction * radius**1.25 * 0.01, 0];
-    this.game = game;
-
+    this.pos = [480 + 20 * this.direction, 160];
+    this.radius = 5;
+    this.strength = 1;
+    this.timeCreated = timeCreated;
     this.color = '#b540e4';
 
     this.gravity = 0.0004;
+    this.vel = [this.direction * radius ** 1.25 * 0.01, 0];
+    this.moving = false;
   }
 
   draw(ctx) {
@@ -22,9 +23,11 @@ class Bullet {
   }
 
   step(timeStep) {
-    this.pos[0] += this.vel[0] * timeStep;
-    this.pos[1] += this.vel[1] * timeStep;
-    this.vel[1] += this.gravity * timeStep;
+    if (this.moving) {
+      this.pos[0] += this.vel[0] * timeStep;
+      this.pos[1] += this.vel[1] * timeStep;
+      this.vel[1] += this.gravity * timeStep;
+    }
   }
 
 }

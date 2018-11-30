@@ -12,12 +12,39 @@ class Game {
 
     this.bulletsAdded = 0;
     this.bullets = [];
+    this.maxBullets = 10;
+
     this.player = new Player(Game.width, Game.height);
 
+    this.leftDown = false;
+    this.rightDown = false;
+    this.bulletForming = false;
+  }
+
+  keyDownHandler(e) {
+    if (e.keyCode === 39) {
+      this.rightDown = true;
+    } else if (e.keyCode === 37) {
+      this.leftDown = true;
+    }
+  }
+
+  keyUpHandler(e) {
+    if (e.keyCode === 39) {
+      this.rightDown = false;
+    } else if (e.keyCode === 37) {
+      this.leftDown = false;
+    }
   }
 
   allObjects() {
     return [].concat(this.aliens, this.bullets, this.player);
+  }
+
+  addAliens() {
+    if (this.timeElapsed > this.aliensAdded * 2350) {
+      this.addAlien();
+    }
   }
 
   addAlien() {
@@ -26,15 +53,43 @@ class Game {
     if (this.aliens.length > 10) this.aliens = this.aliens.slice(1);
   }
 
-  addBullet() {
+  processBullets() {
+
+    if (this.bulletForming) {
+      this.formBullet(this.bullets[this.bullets.length - 1]);
+    } else {
+
+    }
+
+    if (this.leftDown) {
+      if (!this.bulletForming) {
+        addBullet(-1);
+        this.bulletForming = true;
+        this.bulletTime = this.time;
+      } else {
+
+      }
+    }
+
+  }
+
+  addBullet(radius, direction) {
     this.bulletsAdded++;
-    // const radius = Math.random() * 15 + 5;
-    const radius = this.bulletsAdded % 4 * 5 + 5;
-    const direction = Math.sign(Math.random() - 0.5);
+    this.bullets.push(new Bullet(direction, this.time));
 
-    this.bullets.push(new Bullet(this, radius, direction));
+    if (this.bullets.length > this.maxBullets) {
+      this.bullets = this.bullets.slice(1);
+    }
+  }
 
-    if (this.bullets.length > 20) this.bullets = this.bullets.slice(1);
+  formBullet(bullet) {
+    if (!this.leftDown || !this.rightDown) {
+      bullet.moving = true;
+      this.bulletForming = false;
+    } else {
+      bullet.radius = bulle;
+      Math.floor((radius - 1) / 10) + 1
+    }
   }
 
   draw(ctx) {
@@ -65,16 +120,10 @@ class Game {
     ctx.closePath();
   }
 
-  step(timeStep) {
-    this.timeElapsed += timeStep;
-    if (this.timeElapsed > this.aliensAdded * 3000) {
-      this.addAlien();
-    }
-    if (this.timeElapsed > this.bulletsAdded * 500) {
-      this.addBullet();
-    }
-
-
+  step(timeStep, timeElapsed) {
+    this.timeElapsed = timeElapsed;
+    this.addAliens();
+    this.processBullets();
     this.allObjects().forEach(obj => obj.step(timeStep));
     this.checkBulletCollisions();
     this.checkPlayerCollisions();
@@ -86,7 +135,21 @@ class Game {
     this.bullets.forEach(bullet => {
 
       let collision = false;
+      let alienDead = false;
+      let i = 0;
 
+      while (i < this.aliens.length && !collision) {
+        const alien = this.aliens[i];
+
+        if (alien.collidedWithBullet(bullet)) {
+          collision = true;
+          alienDead = alien.health === 0;
+        }
+
+        i++;
+      }
+
+      if (alienDead) this.aliens.splice(i-1, 1);
       if (!collision) newBullets.push(bullet);
 
     });

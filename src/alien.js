@@ -8,7 +8,7 @@ class Alien {
     this.width = 40;
     this.height = 50;
     this.direction = Math.sign(Math.random() - 0.5);
-    // this.direction = -1;
+    this.direction = 1;
 
     this.left = (Game.width - this.width) / 2 - this.direction * (Game.width + this.width) / 2;
     this.bottom = Game.baseY - this.height;
@@ -16,7 +16,7 @@ class Alien {
 
     // 0.03 slow, 0.06 medium, 0.1 fast, 0.15 very fast, 0.2 sprinter
     this.speed = 0.1 * this.direction;
-    this.health = 1;
+    this.health = 2;
     this.color = "#FFFFFF";
   }
 
@@ -71,6 +71,25 @@ class Alien {
     }
 
     return false;
+  }
+
+  collidedWithBullet(bullet) {
+    const left = this.left - bullet.radius + 5;
+    const right = this.left + this.width + bullet.radius - 5;
+    const bottom = this.bottom - bullet.radius;
+    const top = this.bottom + this.height + bullet.radius - 5;
+
+    if (bullet.pos[0] > left &&
+        bullet.pos[0] < right &&
+        bullet.pos[1] < top &&
+        bullet.pos[1] > bottom) {
+
+      this.health -= bullet.strength;
+      return true;
+    }
+
+    return false;
+
   }
 
 }
