@@ -1,9 +1,13 @@
+import {
+  GAME_WIDTH,
+  GAME_HEIGHT,
+} from './settings';
 
 class Player {
 
-  constructor(canvasWidth, canvasHeight) {
+  constructor() {
     this.width = 40;
-    this.left = canvasWidth / 2 - this.width / 2;
+    this.left = GAME_WIDTH / 2 - this.width / 2;
 
     this.maxHeight = 80;
     this.baseY = 130;
@@ -12,7 +16,6 @@ class Player {
     this.bottom = this.baseY;
 
     this.angle = 0;
-    this.draw = this.draw.bind(this);
   }
 
   draw(ctx) {

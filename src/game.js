@@ -2,41 +2,40 @@ import Player from './player';
 import Alien from './alien';
 import Bullet from './bullet';
 import { calculateDifficulty } from './difficulty';
+import {
+  START_SCORE,
+  MAX_BULLETS,
+  GAME_WIDTH,
+  GAME_HEIGHT,
+} from './settings';
 
 class Game {
 
   constructor() {
-    this.player = new Player(Game.width, Game.height);
+    this.player = new Player();
     this.gameTime = 0;
     this.aliens = [];
 
-    this.score = 20;
+    this.score = START_SCORE;
     this.gameover = false;
     calculateDifficulty(this);
     this.timeLastAlienAdded = -this.addAlienInterval;
 
     this.bullets = [];
-    this.maxBullets = 4;
+    this.bulletForming = false;
 
     this.leftDown = false;
     this.rightDown = false;
-    this.bulletForming = false;
   }
 
   keyDownHandler(e) {
-    if (e.keyCode === 39) {
-      this.rightDown = true;
-    } else if (e.keyCode === 37) {
-      this.leftDown = true;
-    }
+    if (e.keyCode === 39) this.rightDown = true;
+    if (e.keyCode === 37) this.leftDown = true;
   }
 
   keyUpHandler(e) {
-    if (e.keyCode === 39) {
-      this.rightDown = false;
-    } else if (e.keyCode === 37) {
-      this.leftDown = false;
-    }
+    if (e.keyCode === 39) this.rightDown = false;
+    if (e.keyCode === 37) this.leftDown = false;
   }
 
   allObjects() {
@@ -66,17 +65,17 @@ class Game {
   }
 
   createBullet() {
-    const direction = this.leftDown ? -1 : 1;
-    this.bullets.push(new Bullet(direction, this.gameTime));
+    const dir = this.leftDown ? -1 : 1;
+    this.bullets.push(new Bullet(dir, this.gameTime));
 
-    if (this.bullets.length > this.maxBullets) {
+    if (this.bullets.length > MAX_BULLETS) {
       this.bullets = this.bullets.slice(1);
     }
   }
 
   formBullet(bullet) {
-    if ((bullet.direction === -1 && !this.leftDown) ||
-        (bullet.direction === 1 && !this.rightDown)) {
+    if ((bullet.dir === -1 && !this.leftDown) ||
+        (bullet.dir === 1 && !this.rightDown)) {
       bullet.moving = true;
       this.bulletForming = false;
     } else {
@@ -85,7 +84,7 @@ class Game {
   }
 
   draw(ctx) {
-    ctx.clearRect(0, 0, Game.width, Game.height);
+    ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
     this.allObjects().forEach(obj => obj.draw(ctx));
 
     const startY = Game.baseY;
@@ -177,8 +176,6 @@ class Game {
 
 }
 
-Game.width = 960;
-Game.height = 540;
 Game.baseY = 450;
 Game.baseX = 84;
 Game.pyramidDY = 80;
