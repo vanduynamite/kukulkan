@@ -31,6 +31,9 @@ class Game {
     this.leftDown = false;
     this.rightDown = false;
 
+    this.background = new Image();
+    this.background.src = './dist/assets/pyramid_details.png';
+
     this.snakes = {
       snake1: { img: new Image() },
       snake2: { img: new Image() },
@@ -135,8 +138,8 @@ class Game {
 
   draw(ctx, frame) {
     ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-    this.allObjects().forEach(obj => obj.draw(ctx, frame));
     this.drawPyramid(ctx);
+    this.allObjects().forEach(obj => obj.draw(ctx, frame));
   }
 
   checkBulletCollisions() {
@@ -194,23 +197,33 @@ class Game {
   }
 
   drawPyramid(ctx) {
-    ctx.beginPath();
-    ctx.moveTo(0, PYR_BOTTOM - 0 * PYR_DY);
-    ctx.lineTo(PYR_LEFT + 0 * PYR_DX, PYR_BOTTOM - 0 * PYR_DY);
-    ctx.lineTo(PYR_LEFT + 1 * PYR_DX, PYR_BOTTOM - 1 * PYR_DY);
-    ctx.lineTo(PYR_LEFT + 2 * PYR_DX, PYR_BOTTOM - 1 * PYR_DY);
-    ctx.lineTo(PYR_LEFT + 3 * PYR_DX, PYR_BOTTOM - 2 * PYR_DY);
-    ctx.lineTo(PYR_LEFT + 4 * PYR_DX, PYR_BOTTOM - 2 * PYR_DY);
-    ctx.lineTo(PYR_LEFT + 5 * PYR_DX, PYR_BOTTOM - 3 * PYR_DY);
-    ctx.lineTo(PYR_LEFT + 6 * PYR_DX, PYR_BOTTOM - 3 * PYR_DY);
-    ctx.lineTo(PYR_LEFT + 7 * PYR_DX, PYR_BOTTOM - 2 * PYR_DY);
-    ctx.lineTo(PYR_LEFT + 8 * PYR_DX, PYR_BOTTOM - 2 * PYR_DY);
-    ctx.lineTo(PYR_LEFT + 9 * PYR_DX, PYR_BOTTOM - 1 * PYR_DY);
-    ctx.lineTo(PYR_LEFT + 10 * PYR_DX, PYR_BOTTOM - 1 * PYR_DY);
-    ctx.lineTo(PYR_LEFT + 11 * PYR_DX, PYR_BOTTOM - 0 * PYR_DY);
-    ctx.lineTo(960, PYR_BOTTOM);
-    ctx.stroke();
-    ctx.closePath();
+    // const sx = this.imgObj.width * sprite;
+    // const sy = this.imgObj.height * this.imgObj.row;
+    // const sw = this.imgObj.width;
+    // const sh = this.imgObj.height;
+    // const dx = this.left - this.imgObj.width / 2 + this.imgObj.sideBuffer;
+    // const dy = this.bottom - this.imgObj.height / 2 + this.imgObj.bottomBuffer;
+    // const dw = ALIEN_WIDTH * 3.5;
+    // const dh = ALIEN_HEIGHT * 2;
+    ctx.drawImage(this.background, 0, 0, 960, 331, 0, 209, 960, 331)
+
+    // ctx.beginPath();
+    // ctx.moveTo(0, PYR_BOTTOM - 0 * PYR_DY);
+    // ctx.lineTo(PYR_LEFT + 0 * PYR_DX, PYR_BOTTOM - 0 * PYR_DY);
+    // ctx.lineTo(PYR_LEFT + 1 * PYR_DX, PYR_BOTTOM - 1 * PYR_DY);
+    // ctx.lineTo(PYR_LEFT + 2 * PYR_DX, PYR_BOTTOM - 1 * PYR_DY);
+    // ctx.lineTo(PYR_LEFT + 3 * PYR_DX, PYR_BOTTOM - 2 * PYR_DY);
+    // ctx.lineTo(PYR_LEFT + 4 * PYR_DX, PYR_BOTTOM - 2 * PYR_DY);
+    // ctx.lineTo(PYR_LEFT + 5 * PYR_DX, PYR_BOTTOM - 3 * PYR_DY);
+    // ctx.lineTo(PYR_LEFT + 6 * PYR_DX, PYR_BOTTOM - 3 * PYR_DY);
+    // ctx.lineTo(PYR_LEFT + 7 * PYR_DX, PYR_BOTTOM - 2 * PYR_DY);
+    // ctx.lineTo(PYR_LEFT + 8 * PYR_DX, PYR_BOTTOM - 2 * PYR_DY);
+    // ctx.lineTo(PYR_LEFT + 9 * PYR_DX, PYR_BOTTOM - 1 * PYR_DY);
+    // ctx.lineTo(PYR_LEFT + 10 * PYR_DX, PYR_BOTTOM - 1 * PYR_DY);
+    // ctx.lineTo(PYR_LEFT + 11 * PYR_DX, PYR_BOTTOM - 0 * PYR_DY);
+    // ctx.lineTo(960, PYR_BOTTOM);
+    // ctx.stroke();
+    // ctx.closePath();
   }
 
 }

@@ -94,7 +94,7 @@ export const GAME_WIDTH = 960;
 
 // Pyramid dimensions
 export const PYR_BOTTOM = 450;
-export const PYR_LEFT = 72;
+export const PYR_LEFT = 80;
 export const PYR_DY = 80;
 const PYR_SLOPES = 3;
 export const PYR_DX = (GAME_WIDTH - 2 * PYR_LEFT) / (PYR_SLOPES * 4 - 1);
