@@ -1,23 +1,22 @@
-import Player from './player.js';
-import Alien from './alien.js';
-import Bullet from './bullet.js';
+import Player from './player';
+import Alien from './alien';
+import Bullet from './bullet';
+import { calculateDifficulty } from './difficulty';
 
 class Game {
 
   constructor() {
-    this.timeElapsed = 0;
-
-    this.aliensAdded = 0;
+    this.player = new Player(Game.width, Game.height);
+    this.gameTime = 0;
     this.aliens = [];
 
-    this.bulletsAdded = 0;
+    this.score = 0;
+    calculateDifficulty(this);
+    this.timeLastAlienAdded = -this.addAlienInterval;
+
     this.bullets = [];
     this.maxBullets = 10;
 
-    this.player = new Player(Game.width, Game.height);
-
-    this.keyDownHandler = this.keyDownHandler.bind(this);
-    this.keyUpHandler = this.keyUpHandler.bind(this);
     this.leftDown = false;
     this.rightDown = false;
     this.bulletForming = false;
@@ -44,15 +43,14 @@ class Game {
   }
 
   addAliens() {
-    if (this.timeElapsed > this.aliensAdded * 2350) {
+    if (this.gameTime - this.timeLastAlienAdded > this.addAlienInterval) {
       this.addAlien();
     }
   }
 
   addAlien() {
-    this.aliensAdded++;
-    this.aliens.push(new Alien(this));
-    if (this.aliens.length > 10) this.aliens = this.aliens.slice(1);
+    this.timeLastAlienAdded = this.gameTime;
+    this.aliens.push(new Alien(this.difficulty));
   }
 
   processBullets() {
@@ -61,15 +59,14 @@ class Game {
     } else {
       if (this.leftDown || this.rightDown) {
         this.bulletForming = true;
-        this.addBullet();
+        this.createBullet();
       }
     }
   }
 
-  addBullet() {
-    this.bulletsAdded++;
+  createBullet() {
     const direction = this.leftDown ? -1 : 1;
-    this.bullets.push(new Bullet(direction, this.timeElapsed));
+    this.bullets.push(new Bullet(direction, this.gameTime));
 
     if (this.bullets.length > this.maxBullets) {
       this.bullets = this.bullets.slice(1);
@@ -81,9 +78,8 @@ class Game {
         (bullet.direction === 1 && !this.rightDown)) {
       bullet.moving = true;
       this.bulletForming = false;
-      console.log(bullet.radius);
     } else {
-      bullet.updateParameters(this.timeElapsed);
+      bullet.updateParameters(this.gameTime);
     }
   }
 
@@ -115,8 +111,8 @@ class Game {
     ctx.closePath();
   }
 
-  step(timeStep, timeElapsed) {
-    this.timeElapsed = timeElapsed;
+  step(timeStep, gameTime) {
+    this.gameTime = gameTime;
     this.addAliens();
     this.processBullets();
     this.allObjects().forEach(obj => obj.step(timeStep));
@@ -144,7 +140,11 @@ class Game {
         i++;
       }
 
-      if (alienDead) this.aliens.splice(i - 1, 1);
+      if (alienDead) {
+        this.score++;
+        calculateDifficulty(this);
+        this.aliens.splice(i - 1, 1);
+      }
       if (!collision) newBullets.push(bullet);
 
     });
@@ -158,6 +158,8 @@ class Game {
     this.aliens.forEach(alien => {
       if (!alien.collidedWithPlayer(this.player)) {
         newAliens.push(alien);
+      } else {
+        this.score++;
       }
     });
 

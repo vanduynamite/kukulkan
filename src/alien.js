@@ -1,10 +1,12 @@
 import Game from './game';
+import {
+  alienHealth,
+  alienSpeed,
+} from './difficulty';
 
 class Alien {
 
-  constructor(game) {
-    this.game = game;
-
+  constructor(difficulty) {
     this.width = 40;
     this.height = 50;
     this.direction = Math.sign(Math.random() - 0.5);

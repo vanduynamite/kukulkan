@@ -1,5 +1,5 @@
-import Game from './game.js';
-import GameRender from './game_render.js';
+import Game from './game';
+import GameRender from './game_render';
 
 
 document.addEventListener("DOMContentLoaded", () => {
