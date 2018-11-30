@@ -1,18 +1,40 @@
 import Player from './player.js';
 import Alien from './alien.js';
+import Bullet from './bullet.js';
 
 class Game {
 
   constructor() {
+    this.timeElapsed = 0;
+
+    this.aliensAdded = 0;
     this.aliens = [];
+
+    this.bulletsAdded = 0;
     this.bullets = [];
     this.player = new Player(Game.width, Game.height);
 
-    this.aliens.push(new Alien());
   }
 
   allObjects() {
     return [].concat(this.aliens, this.bullets, this.player);
+  }
+
+  addAlien() {
+    this.aliensAdded++;
+    this.aliens.push(new Alien(this));
+    if (this.aliens.length > 10) this.aliens = this.aliens.slice(1);
+  }
+
+  addBullet() {
+    this.bulletsAdded++;
+    // const radius = Math.random() * 15 + 5;
+    const radius = this.bulletsAdded % 4 * 5 + 5;
+    const direction = Math.sign(Math.random() - 0.5);
+
+    this.bullets.push(new Bullet(this, radius, direction));
+
+    if (this.bullets.length > 20) this.bullets = this.bullets.slice(1);
   }
 
   draw(ctx) {
@@ -44,8 +66,44 @@ class Game {
   }
 
   step(timeStep) {
+    this.timeElapsed += timeStep;
+    if (this.timeElapsed > this.aliensAdded * 3000) {
+      this.addAlien();
+    }
+    if (this.timeElapsed > this.bulletsAdded * 500) {
+      this.addBullet();
+    }
+
+
     this.allObjects().forEach(obj => obj.step(timeStep));
-    // collisions and such
+    this.checkBulletCollisions();
+    this.checkPlayerCollisions();
+  }
+
+  checkBulletCollisions() {
+    const newBullets = [];
+
+    this.bullets.forEach(bullet => {
+
+      let collision = false;
+
+      if (!collision) newBullets.push(bullet);
+
+    });
+
+    this.bullets = newBullets;
+  }
+
+  checkPlayerCollisions() {
+    const newAliens = [];
+
+    this.aliens.forEach(alien => {
+      if (!alien.collidedWithPlayer(this.player)) {
+        newAliens.push(alien);
+      }
+    });
+
+    this.aliens = newAliens;
   }
 
 }
@@ -56,5 +114,6 @@ Game.baseY = 450;
 Game.baseX = 84;
 Game.pyramidDY = 80;
 Game.pyramidDX = 72;
+Game.slope = Game.pyramidDY / Game.pyramidDX;
 
 export default Game;

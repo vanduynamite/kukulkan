@@ -2,7 +2,9 @@ import Game from './game';
 
 class Alien {
 
-  constructor() {
+  constructor(game) {
+    this.game = game;
+
     this.width = 40;
     this.height = 50;
     this.direction = Math.sign(Math.random() - 0.5);
@@ -28,11 +30,10 @@ class Alien {
 
   step(timeStep) {
     this.left += this.speed * timeStep;
-    const toe = this.left + this.width * 0.5;
-    // 84 or 876
-    // 480 - 396 or 480 + 396
+    let toe = this.left + this.width * 0.5;
     const base = Game.width / 2 - (Game.width / 2 - Game.baseX) * this.direction;
     const dx = Game.pyramidDX * this.direction;
+
 
     if ((toe > base + 0 * dx && toe <= base + 1 * dx) ||
         (toe > base + 2 * dx && toe <= base + 3 * dx) ||
@@ -40,12 +41,36 @@ class Alien {
       this.bottom -= Game.pyramidDY / Game.pyramidDX * this.speed * timeStep;
     }
 
+
     if ((toe < base + 0 * dx && toe >= base + 1 * dx) ||
         (toe < base + 2 * dx && toe >= base + 3 * dx) ||
         (toe < base + 4 * dx && toe >= base + 5 * dx)) {
       this.bottom += Game.pyramidDY / Game.pyramidDX * this.speed * timeStep;
     }
 
+
+    // TODO: implement a formulaic approach
+    // const slope = Game.slope;
+    //
+    // const foot = Math.max(toe - 84 * this.direction, 0);
+    // const onSlope = (Math.floor(foot / Game.pyramidDX) + 1) % 2;
+    // const stepNum = Math.floor((Math.floor(foot / Game.pyramidDX) + 1) / 2);
+    // const test = foot % Game.pyramidDX * slope * onSlope;
+    // // console.log(test + stepNum * Game.pyramidDY);
+    // this.bottom = Game.baseY - (test + stepNum * Game.pyramidDY) - this.height;
+  }
+
+  collidedWithPlayer(player) {
+
+    if ((this.left < player.left + player.width - 10) && this.direction == -1) {
+      return true;
+    }
+
+    if ((this.left + this.width - 10 > player.left) && this.direction == 1) {
+      return true;
+    }
+
+    return false;
   }
 
 }

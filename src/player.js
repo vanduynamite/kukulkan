@@ -5,8 +5,8 @@ class Player {
     this.width = 40;
     this.left = canvasWidth / 2 - this.width / 2;
 
-    this.maxHeight = 50;
-    this.baseY = 160;
+    this.maxHeight = 80;
+    this.baseY = 130;
 
     this.height = this.maxHeight;
     this.bottom = this.baseY;
