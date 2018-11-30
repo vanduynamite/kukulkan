@@ -8,15 +8,14 @@ class Alien {
     this.width = 40;
     this.height = 50;
     this.direction = Math.sign(Math.random() - 0.5);
-    this.direction = 1;
 
     this.left = (Game.width - this.width) / 2 - this.direction * (Game.width + this.width) / 2;
     this.bottom = Game.baseY - this.height;
 
 
     // 0.03 slow, 0.06 medium, 0.1 fast, 0.15 very fast, 0.2 sprinter
-    this.speed = 0.1 * this.direction;
-    this.health = 2;
+    this.speed = 0.03 * this.direction;
+    this.health = 1;
     this.color = "#FFFFFF";
   }
 

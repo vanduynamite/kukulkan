@@ -3,15 +3,31 @@ class Bullet {
 
   constructor(direction, timeCreated) {
     this.direction = direction;
-    this.pos = [480 + 20 * this.direction, 160];
-    this.radius = 5;
-    this.strength = 1;
     this.timeCreated = timeCreated;
-    this.color = '#b540e4';
+
+    this.pos = [480 + 20 * this.direction, 160];
+    this.radius = 4;
+    this.strength = 1;
 
     this.gravity = 0.0004;
-    this.vel = [this.direction * radius ** 1.25 * 0.01, 0];
+    this.vel = [this.direction * this.radius ** 1.25 * 0.01, 0];
     this.moving = false;
+
+    this.color = '#b540e4';
+
+    this.maxFormTime = 1000;
+    this.numSizes = 10;
+    this.timeInterval = this.maxFormTime / (this.numSizes - 1);
+    this.maxSize = 20;
+  }
+
+  updateParameters(newTime) {
+    const timePassed = Math.min(newTime - this.timeCreated, this.maxFormTime);
+    const bulletLevel = Math.floor(timePassed / this.timeInterval) + 1;
+
+    this.radius = bulletLevel * (this.maxSize / (this.numSizes));
+    this.strength = Math.floor((this.radius - 1) / 10) + 1;
+    this.vel = [this.direction * this.radius ** 1.25 * 0.01, 0];
   }
 
   draw(ctx) {

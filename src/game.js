@@ -16,6 +16,8 @@ class Game {
 
     this.player = new Player(Game.width, Game.height);
 
+    this.keyDownHandler = this.keyDownHandler.bind(this);
+    this.keyUpHandler = this.keyUpHandler.bind(this);
     this.leftDown = false;
     this.rightDown = false;
     this.bulletForming = false;
@@ -54,28 +56,20 @@ class Game {
   }
 
   processBullets() {
-
     if (this.bulletForming) {
       this.formBullet(this.bullets[this.bullets.length - 1]);
     } else {
-
-    }
-
-    if (this.leftDown) {
-      if (!this.bulletForming) {
-        addBullet(-1);
+      if (this.leftDown || this.rightDown) {
         this.bulletForming = true;
-        this.bulletTime = this.time;
-      } else {
-
+        this.addBullet();
       }
     }
-
   }
 
-  addBullet(radius, direction) {
+  addBullet() {
     this.bulletsAdded++;
-    this.bullets.push(new Bullet(direction, this.time));
+    const direction = this.leftDown ? -1 : 1;
+    this.bullets.push(new Bullet(direction, this.timeElapsed));
 
     if (this.bullets.length > this.maxBullets) {
       this.bullets = this.bullets.slice(1);
@@ -83,12 +77,13 @@ class Game {
   }
 
   formBullet(bullet) {
-    if (!this.leftDown || !this.rightDown) {
+    if ((bullet.direction === -1 && !this.leftDown) ||
+        (bullet.direction === 1 && !this.rightDown)) {
       bullet.moving = true;
       this.bulletForming = false;
+      console.log(bullet.radius);
     } else {
-      bullet.radius = bulle;
-      Math.floor((radius - 1) / 10) + 1
+      bullet.updateParameters(this.timeElapsed);
     }
   }
 
@@ -143,13 +138,13 @@ class Game {
 
         if (alien.collidedWithBullet(bullet)) {
           collision = true;
-          alienDead = alien.health === 0;
+          alienDead = alien.health <= 0;
         }
 
         i++;
       }
 
-      if (alienDead) this.aliens.splice(i-1, 1);
+      if (alienDead) this.aliens.splice(i - 1, 1);
       if (!collision) newBullets.push(bullet);
 
     });
