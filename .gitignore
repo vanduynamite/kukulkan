@@ -8,7 +8,6 @@
 /.bundle
 bundle.js
 bundle.js.map
-main.js
 
 # Ignore all logfiles and tempfiles.
 /log/*
