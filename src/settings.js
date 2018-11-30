@@ -1,5 +1,5 @@
 
-export const START_SCORE = 100;
+export const START_SCORE = 0;
 
 
 // how much leeway the hitboxes have
