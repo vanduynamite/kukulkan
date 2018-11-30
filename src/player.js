@@ -1,28 +1,31 @@
 
 class Player {
 
-  constructor() {
+  constructor(canvasWidth, canvasHeight) {
+    this.width = 40;
+    this.left = canvasWidth / 2 - this.width / 2;
+
     this.maxHeight = 50;
-    this.baseY = 220;
+    this.baseY = 160;
 
     this.height = this.maxHeight;
-    this.y = this.baseY;
+    this.bottom = this.baseY;
 
     this.angle = 0;
     this.draw = this.draw.bind(this);
   }
 
-  draw(context) {
-    context.beginPath();
-    context.rect(480, this.y, 30, this.height);
-    context.fillStyle = "#FFFFFF";
-    context.fill();
-    context.closePath();
+  draw(ctx) {
+    ctx.beginPath();
+    ctx.rect(this.left, this.bottom, this.width, this.height);
+    ctx.fillStyle = "#000000";
+    ctx.fill();
+    ctx.closePath();
   }
 
   step(timeStep) {
     this.height = this.maxHeight - 10 * Math.cos(this.angle);
-    this.y = this.baseY + 10 * Math.cos(this.angle);
+    this.bottom = this.baseY + 10 * Math.cos(this.angle);
     this.angle += 0.01 * timeStep;
   }
 

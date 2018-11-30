@@ -15,7 +15,8 @@ h1 {
 }
 
 #kukulkanvas {
-  /* width: 960px; */
-  /* height: 640px; */
-  background-color: #7ba1c2;
+  /* background-image: url('temple.gif'); */
+  background-image: url('desert.gif');
+  background-repeat: no-repeat;
+  background-size: 960px 540px;
 }

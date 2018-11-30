@@ -2,9 +2,9 @@
 
 class GameRender {
 
-  constructor(game, context) {
+  constructor(game, ctx) {
     this.game = game;
-    this.context = context;
+    this.ctx = ctx;
   }
 
   startGame() {
@@ -12,15 +12,25 @@ class GameRender {
   }
 
   animate(time) {
-    // console.log(`game render step time: ${time}`);
-
     const timeStep = time - this.prevTime || 0;
 
     this.game.step(timeStep);
-    this.game.draw(this.context);
+    this.game.draw(this.ctx);
     this.prevTime = time;
 
     requestAnimationFrame(this.animate.bind(this));
+  }
+
+  bindKeyHandlers() {
+
+    
+
+    Object.keys(GameView.MOVES).forEach((k) => {
+      const move = GameView.MOVES[k];
+      key(k, () => { ship.power(move); });
+    });
+
+    key("space", () => { ship.fireBullet(); });
   }
 
 }
