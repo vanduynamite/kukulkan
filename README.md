@@ -1,6 +1,8 @@
 # Kukulkan
 The Mayan god Kukulkan has sent his alien minions to take over the earth. You are the last person alive, stuck at the top of a temple...good thing you have your trusty laser cannon!
 
+Try the game live [here][kukulkan_live]!
+
 ### Gameplay
 Aliens will walk from the edges of the screen up the temple. The game ends if any of them touch you. You can blast them with your laser cannon though - hold the left or right arrow key to charge up your gun, then release to fire the shot. The longer you hold the key, the more powerful the shot.
 
@@ -22,3 +24,4 @@ The name [Kukulkan][kukulkan_wiki] is the Mayan feathered serpent god, from whic
 [ziggurat_wiki]: https://en.wikipedia.org/wiki/Ziggurat_(video_game)
 [abe_wiki]: https://en.wikipedia.org/wiki/Action_Button_Entertainment
 [kukulkan_wiki]: https://en.wikipedia.org/wiki/Kukulkan
+[kukulkan_live]: https://vanduynamite.github.io/kukulkan/
