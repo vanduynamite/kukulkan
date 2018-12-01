@@ -1,8 +1,18 @@
 import {
   alienImages,
+  bulletImages,
 } from './images';
 
+// 1 = insane
+// 2 = hard
+// 3 = normal
+// 4 = easy
+// 5 = beginner
+// it's about 30 seconds per level
+export const KILLS_PER_LEVEL = 3;
 export const START_SCORE = 0;
+export const DRAW_HITBOXES = false;
+export const PLAYER_CAN_DIE = true;
 
 
 // how much leeway the hitboxes have
@@ -10,10 +20,7 @@ export const PLAYER_BUFFER = 10; // higher is easier
 export const BULLET_BUFFER = 5; // higher is harder. can go negative.
 
 
-// difficulty
-
-export const KILLS_PER_LEVEL = 5;
-
+// difficulty ramp
 export const ALIEN_INTERVAL_LEVELS = [
   0, // 3500 rate
   4, // 2700 - 200n rate
@@ -61,30 +68,56 @@ export const START_RADIUS = 4;
 export const GRAVITY = 0.0004;
 export const MAX_BULLETS = 4;
 export const MAX_SIZE = 20;
-export const MAX_FORM_TIME = 1000; // decrease this by level?
-export const NUM_SIZES = 10;
+export const MAX_FORM_TIME = 1000;
+export const NUM_SIZES = 7;
 export const FORM_INTERVAL = MAX_FORM_TIME / (NUM_SIZES - 1);
 export const bulletVelX = (direction, radius) => {
   return direction * Math.pow(radius, 1.25) * 0.01;
 };
 
-export const bulletColor = (strength) => {
-  switch (strength) {
-    case 0.5:
-      return '#27349a';
-    case 1:
-      return '#b540e4';
-    case 2:
-      return '#eb2a67';
+export const bulletSpriteMap = (radius, frame) => {
+
+  const step = MAX_SIZE / 7;
+
+  // return bulletImages.bullet3;
+
+  switch (true) {
+    case (radius < 1 * step):
+      return bulletImages.bullet1;
+    case (radius < 2 * step):
+      return bulletImages.bullet2;
+    case (radius < 3 * step):
+      return bulletImages.bullet3;
+    case (radius < 4 * step):
+      return bulletImages.bullet4;
+    case (radius < 5 * step):
+      return bulletImages.bullet5;
+    case (radius < 6 * step):
+      return bulletImages.bullet6;
+    case (frame <= 15):
+      return bulletImages.bullet7;
+    case (frame <= 30):
+      return bulletImages.bullet8;
+    case (frame <= 45):
+      return bulletImages.bullet9;
+    case (frame <= 60):
+      return bulletImages.bullet8;
   }
 };
 
-export const alienSpriteMap = (health, direction) => {
+export const alienSpriteMap = (health, direction, dead) => {
+
   switch (true) {
+    case (health <= 1 && dead):
+      return direction === -1 ? alienImages.alien3 : alienImages.alien3Backwards;
     case (health <= 1):
       return direction === -1 ? alienImages.alien3 : alienImages.alien3Backwards;
+    case (health <= 2 && dead):
+      return direction === -1 ? alienImages.alien1dying : alienImages.alien1BackwardsDying;
     case (health <= 2):
       return direction === -1 ? alienImages.alien1 : alienImages.alien1Backwards;
+    case (health <= 3 && dead):
+      return direction === -1 ? alienImages.alien2 : alienImages.alien2Backwards;
     case (health <= 3):
       return direction === -1 ? alienImages.alien2 : alienImages.alien2Backwards;
     default:

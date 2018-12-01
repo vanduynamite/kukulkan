@@ -4,6 +4,7 @@ import Bullet from './bullet';
 import { calculateDifficulty } from './difficulty';
 import {
   START_SCORE,
+  PLAYER_CAN_DIE,
   MAX_BULLETS,
   GAME_WIDTH,
   GAME_HEIGHT,
@@ -47,7 +48,7 @@ class Game {
   }
 
   allObjects() {
-    return [].concat(this.aliens, this.bullets, this.player);
+    return [].concat(this.player, this.aliens, this.bullets);
   }
 
   addAliens() {
@@ -146,7 +147,7 @@ class Game {
 
     this.aliens.forEach(alien => {
       if (alien.collidedWithPlayer(this.player)) {
-        this.gameover = true;
+        if (PLAYER_CAN_DIE) this.gameover = true;
       } else {
         newAliens.push(alien);
       }

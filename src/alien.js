@@ -11,6 +11,7 @@ import {
   PYR_LEFT,
   PYR_DX,
   PYR_DY,
+  DRAW_HITBOXES,
 } from './settings';
 
 class Alien {
@@ -48,6 +49,8 @@ class Alien {
         bullet.pos[1] > this.bottom - bullet.radius) {
 
       this.health -= bullet.strength;
+      // TODO: dying alien sprite
+      // if (this.health === 0) this.imgObj = alienSpriteMap(this.health, this.dir, true);
       return true;
     }
 
@@ -87,11 +90,12 @@ class Alien {
     const dh = ALIEN_HEIGHT * 2;
     ctx.drawImage(this.imgObj.img, sx, sy, sw, sh, dx, dy, dw, dh)
 
-    // ctx.beginPath();
-    // ctx.rect(this.left, this.bottom, ALIEN_WIDTH, ALIEN_HEIGHT);
-    // // ctx.fillStyle = this.color;
-    // ctx.stroke();
-    // ctx.closePath();
+    if (DRAW_HITBOXES) {
+      ctx.beginPath();
+      ctx.rect(this.left, this.bottom, ALIEN_WIDTH, ALIEN_HEIGHT);
+      ctx.stroke();
+      ctx.closePath();
+    }
   }
 
 }

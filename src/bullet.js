@@ -11,6 +11,8 @@ import {
   GAME_WIDTH,
   PLAYER_WIDTH,
   BULLET_HEIGHT,
+  bulletSpriteMap,
+  DRAW_HITBOXES,
 } from './settings';
 
 class Bullet {
@@ -29,10 +31,9 @@ class Bullet {
 
     this.radius = bulletLevel * (MAX_SIZE / NUM_SIZES);
     this.strength = bulletStrength(this.radius);
-    this.color = bulletColor(this.strength);
     this.vel = [bulletVelX(this.dir, this.radius), 0];
   }
-  
+
   step(timeStep) {
     if (this.moving) {
       this.pos[0] += this.vel[0] * timeStep;
@@ -41,12 +42,21 @@ class Bullet {
     }
   }
 
-  draw(ctx) {
-    ctx.beginPath();
-    ctx.arc(this.pos[0], this.pos[1], this.radius, 0, Math.PI * 2, true);
-    ctx.fillStyle = this.color;
-    ctx.fill();
-    ctx.closePath();
+  draw(ctx, frame) {
+
+    const imgBorder = 4;
+
+    const img = bulletSpriteMap(this.radius, frame)
+    ctx.drawImage(img.img, 0, 0, 67, 67,
+      this.pos[0] - this.radius - imgBorder, this.pos[1] - this.radius - imgBorder,
+      (this.radius + imgBorder) * 2, (this.radius + imgBorder) * 2);
+
+    if (DRAW_HITBOXES) {
+      ctx.beginPath();
+      ctx.arc(this.pos[0], this.pos[1], this.radius, 0, Math.PI * 2, true);
+      ctx.stroke();
+      ctx.closePath();
+    }
   }
 
 }
