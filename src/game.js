@@ -33,41 +33,8 @@ class Game {
 
     this.background = new Image();
     this.background.src = './dist/assets/pyramid_details.png';
-
-    this.snakes = {
-      snake1: { img: new Image() },
-      snake2: { img: new Image() },
-      snake3: { img: new Image() },
-    };
-
-    this.setupImages();
   }
 
-  setupImages() {
-    this.snakes.snake1.img.src = './dist/assets/snake1.png';
-    this.snakes.snake1.frames = 6;
-    this.snakes.snake1.width = 150;
-    this.snakes.snake1.height = 120;
-    this.snakes.snake1.row = 2;
-    this.snakes.snake1.sideBuffer = 12;
-    this.snakes.snake1.bottomBuffer = 11;
-
-    this.snakes.snake2.img.src = './dist/assets/snake2.png';
-    this.snakes.snake2.frames = 4;
-    this.snakes.snake2.width = 165;
-    this.snakes.snake2.height = 150;
-    this.snakes.snake2.row = 2;
-    this.snakes.snake2.sideBuffer = 20;
-    this.snakes.snake2.bottomBuffer = 50;
-
-    this.snakes.snake3.img.src = './dist/assets/snake3.png';
-    this.snakes.snake3.frames = 8;
-    this.snakes.snake3.width = 200;
-    this.snakes.snake3.height = 175;
-    this.snakes.snake3.row = 2;
-    this.snakes.snake3.sideBuffer = 80;
-    this.snakes.snake3.bottomBuffer = 28;
-  }
 
   keyDownHandler(e) {
     if (e.keyCode === 39) this.rightDown = true;
@@ -91,7 +58,7 @@ class Game {
 
   addAlien() {
     this.timeLastAlienAdded = this.gameTime;
-    this.aliens.push(new Alien(this.difficulty, this.snakes));
+    this.aliens.push(new Alien(this.difficulty));
   }
 
   processBullets() {
@@ -197,14 +164,6 @@ class Game {
   }
 
   drawPyramid(ctx) {
-    // const sx = this.imgObj.width * sprite;
-    // const sy = this.imgObj.height * this.imgObj.row;
-    // const sw = this.imgObj.width;
-    // const sh = this.imgObj.height;
-    // const dx = this.left - this.imgObj.width / 2 + this.imgObj.sideBuffer;
-    // const dy = this.bottom - this.imgObj.height / 2 + this.imgObj.bottomBuffer;
-    // const dw = ALIEN_WIDTH * 3.5;
-    // const dh = ALIEN_HEIGHT * 2;
     ctx.drawImage(this.background, 0, 0, 960, 331, 0, 209, 960, 331)
 
     // ctx.beginPath();

@@ -1,3 +1,6 @@
+import {
+  alienImages,
+} from './images';
 
 export const START_SCORE = 0;
 
@@ -21,9 +24,9 @@ export const ALIEN_INTERVAL_LEVELS = [
 ];
 
 export const ALIEN_HEALTH_LEVELS = [
-  2, // all weak
-  4, // 75% weak, 25% hearty
-  8, // 50% weak, 50% hearty
+  1, // all weak
+  3, // 75% weak, 25% hearty
+  7, // 50% weak, 50% hearty
   14, // 50% weak, 25% hearty, 25% strong
       // 25% weak, 50% hearty, 25% strong
 ];
@@ -31,7 +34,7 @@ export const ALIEN_HEALTH_LEVELS = [
 export const ALIEN_SPEED_LEVELS = [
   0, // all slow
   1, // 75% slow, 25% medium
-  6, // 50% slow, 50% medium
+  5, // 50% slow, 50% medium
   12, // 25% slow, 50% medium, 25% fast
   15, // 50% medium, 50% fast
   20, // 25% medium, 50% fast, 25% v. fast
@@ -76,16 +79,16 @@ export const bulletColor = (strength) => {
   }
 };
 
-export const alienSpriteMap = (health, imgs) => {
+export const alienSpriteMap = (health, direction) => {
   switch (true) {
     case (health <= 1):
-      return imgs.snake3;
+      return direction === -1 ? alienImages.alien3 : alienImages.alien3Backwards;
     case (health <= 2):
-      return imgs.snake2;
+      return direction === -1 ? alienImages.alien1 : alienImages.alien1Backwards;
     case (health <= 3):
-      return imgs.snake1;
+      return direction === -1 ? alienImages.alien2 : alienImages.alien2Backwards;
     default:
-      return imgs.snake3;
+      return direction === -1 ? alienImages.alien3 : alienImages.alien3Backwards;
   }
 };
 

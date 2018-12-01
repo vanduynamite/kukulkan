@@ -15,15 +15,14 @@ import {
 
 class Alien {
 
-  constructor(difficulty, imgs) {
+  constructor(difficulty) {
     this.dir = Math.sign(Math.random() - 0.5);
-
     this.left = (GAME_WIDTH - ALIEN_WIDTH) / 2 - this.dir * (GAME_WIDTH + ALIEN_WIDTH) / 2;
     this.bottom = PYR_BOTTOM - ALIEN_HEIGHT;
 
     this.health = alienHealth(difficulty);
     this.speed = alienSpeed(difficulty) * this.dir;
-    this.imgObj = alienSpriteMap(this.health, imgs);
+    this.imgObj = alienSpriteMap(this.health, this.dir);
   }
 
   collidedWithPlayer(player) {
@@ -78,11 +77,11 @@ class Alien {
   draw(ctx, frame) {
     const sprite = Math.floor(frame / (60 / this.imgObj.frames));
 
-    const sx = this.imgObj.width * sprite;
+    const sx = this.imgObj.start - this.imgObj.width * sprite * this.dir;
     const sy = this.imgObj.height * this.imgObj.row;
     const sw = this.imgObj.width;
     const sh = this.imgObj.height;
-    const dx = this.left - this.imgObj.width / 2 + this.imgObj.sideBuffer;
+    const dx = this.left - (this.imgObj.width - ALIEN_WIDTH) / 2 + this.imgObj.sideBuffer;
     const dy = this.bottom - this.imgObj.height / 2 + this.imgObj.bottomBuffer;
     const dw = ALIEN_WIDTH * 3.5;
     const dh = ALIEN_HEIGHT * 2;
