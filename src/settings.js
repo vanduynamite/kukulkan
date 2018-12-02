@@ -1,4 +1,5 @@
 import {
+  playerImages,
   alienImages,
   bulletImages,
 } from './images';
@@ -12,7 +13,7 @@ import {
 export const KILLS_PER_LEVEL = 3;
 export const START_SCORE = 0;
 export const DRAW_HITBOXES = false;
-export const PLAYER_CAN_DIE = true;
+export const PLAYER_CAN_DIE = false;
 
 
 // how much leeway the hitboxes have
@@ -125,9 +126,18 @@ export const alienSpriteMap = (health, direction, dead) => {
   }
 };
 
+export const playerSpriteMap = (direction) => {
+
+  switch (direction) {
+    case -1:
+      return playerImages.playerLeft;
+    case 1:
+      return playerImages.playerRight;
+  }
+};
+
 
 export const GAME_WIDTH = 960;
-
 // Pyramid dimensions
 export const PYR_BOTTOM = 450;
 export const PYR_LEFT = 80;
@@ -137,8 +147,8 @@ export const PYR_DX = (GAME_WIDTH - 2 * PYR_LEFT) / (PYR_SLOPES * 4 - 1);
 
 // Game dimensions
 export const GAME_HEIGHT = 540;
-export const PLAYER_WIDTH = 40;
-export const PLAYER_HEIGHT = 80;
+export const PLAYER_WIDTH = 60;
+export const PLAYER_HEIGHT = 95;
 export const PLAYER_BASE_HEIGHT = PYR_BOTTOM - PYR_DY * PYR_SLOPES - PLAYER_HEIGHT;
 export const BULLET_HEIGHT = PLAYER_BASE_HEIGHT + 0.35 * PLAYER_HEIGHT;
 export const ALIEN_WIDTH = 52;

@@ -108,5 +108,38 @@ const buildBulletImages = () => {
   return bullets;
 };
 
+const buildPlayerImages = () => {
+
+  const imgs = {
+    playerLeft: { img: new Image() },
+    playerRight: { img: new Image() },
+    // playerLeftDying: { img: new Image() },
+    // playerRightDying: { img: new Image() },
+  };
+
+  imgs.playerLeft.img.src = './dist/assets/player_left.png';
+  imgs.playerLeft.frames = 6;
+  imgs.playerLeft.start = 0;
+  imgs.playerLeft.width = 100;
+  imgs.playerLeft.height = 120;
+  imgs.playerLeft.row = 0;
+  imgs.playerLeft.sideBuffer = 0;
+  imgs.playerLeft.bottomBuffer = -18;
+
+  imgs.playerRight.img.src = './dist/assets/player_right.png';
+  imgs.playerRight.frames = 6;
+  imgs.playerRight.start = 500;
+  imgs.playerRight.width = 100;
+  imgs.playerRight.height = 120;
+  imgs.playerRight.row = 0;
+  imgs.playerRight.sideBuffer = 0;
+  imgs.playerRight.bottomBuffer = -18;
+
+  return imgs;
+
+};
+
+
+export const playerImages = buildPlayerImages();
 export const bulletImages = buildBulletImages();
 export const alienImages = buildAlienImages();

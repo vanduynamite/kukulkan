@@ -38,8 +38,8 @@ class Game {
 
 
   keyDownHandler(e) {
-    if (e.keyCode === 39) this.rightDown = true;
-    if (e.keyCode === 37) this.leftDown = true;
+    if (e.keyCode === 39 && !this.rightDown) this.rightDown = true;
+    if (e.keyCode === 37 && !this.leftDown) this.leftDown = true;
   }
 
   keyUpHandler(e) {
@@ -59,7 +59,7 @@ class Game {
 
   addAlien() {
     this.timeLastAlienAdded = this.gameTime;
-    this.aliens.push(new Alien(this.difficulty));
+    this.aliens.push(new Alien(this.difficulty, this.gameTime));
   }
 
   processBullets() {
@@ -76,6 +76,7 @@ class Game {
   createBullet() {
     const dir = this.leftDown ? -1 : 1;
     this.bullets.push(new Bullet(dir, this.gameTime));
+    this.player.updateDirection(dir);
 
     if (this.bullets.length > MAX_BULLETS) {
       this.bullets = this.bullets.slice(1);
@@ -96,7 +97,7 @@ class Game {
     this.gameTime = gameTime;
     this.addAliens();
     this.processBullets();
-    this.allObjects().forEach(obj => obj.step(timeStep));
+    this.allObjects().forEach(obj => obj.step(timeStep, gameTime));
 
     this.draw(ctx, frame);
 

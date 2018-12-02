@@ -16,7 +16,9 @@ import {
 
 class Alien {
 
-  constructor(difficulty) {
+  constructor(difficulty, timeCreated) {
+    this.timeCreated = timeCreated;
+
     this.dir = Math.sign(Math.random() - 0.5);
     this.left = (GAME_WIDTH - ALIEN_WIDTH) / 2 - this.dir * (GAME_WIDTH + ALIEN_WIDTH) / 2;
     this.bottom = PYR_BOTTOM - ALIEN_HEIGHT;
@@ -57,7 +59,10 @@ class Alien {
     return false;
   }
 
-  step(timeStep) {
+  step(timeStep, gameTime) {
+    const dt = gameTime - this.timeCreated;
+    // this.left = this.speed * dt;
+
     this.left += this.speed * timeStep;
     let toe = this.left + ALIEN_WIDTH * 0.5;
     const base = GAME_WIDTH / 2 - (GAME_WIDTH / 2 - PYR_LEFT) * this.dir;

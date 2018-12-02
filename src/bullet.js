@@ -35,7 +35,7 @@ class Bullet {
   }
 
   step(timeStep) {
-    if (this.moving) {
+    if (this.moving && this.pos && this.vel) {
       this.pos[0] += this.vel[0] * timeStep;
       this.pos[1] += this.vel[1] * timeStep;
       this.vel[1] += GRAVITY * timeStep;
