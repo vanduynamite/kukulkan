@@ -20,7 +20,8 @@ class Alien {
     this.timeCreated = timeCreated;
 
     this.dir = Math.sign(Math.random() - 0.5);
-    this.left = (GAME_WIDTH - ALIEN_WIDTH) / 2 - this.dir * (GAME_WIDTH + ALIEN_WIDTH) / 2;
+    this.leftStart = (GAME_WIDTH - ALIEN_WIDTH) / 2 - this.dir * (GAME_WIDTH + ALIEN_WIDTH) / 2;
+    this.left = this.leftStart;
     this.bottom = PYR_BOTTOM - ALIEN_HEIGHT;
 
     this.health = alienHealth(difficulty);
@@ -61,24 +62,15 @@ class Alien {
 
   step(timeStep, gameTime) {
     const dt = gameTime - this.timeCreated;
-    // this.left = this.speed * dt;
+    this.left = this.leftStart + this.speed * dt;
 
-    this.left += this.speed * timeStep;
-    let toe = this.left + ALIEN_WIDTH * 0.5;
+    const toe = this.left + ALIEN_WIDTH * 0.5;
     const base = GAME_WIDTH / 2 - (GAME_WIDTH / 2 - PYR_LEFT) * this.dir;
-    const dx = PYR_DX * this.dir;
+    const numSections = Math.max((toe - base) / PYR_DX * this.dir, 0);
+    const numLevelsUp = Math.ceil(Math.floor(numSections) / 2);
+    const dxUpSlope = numSections % 2 > 1 ? 0 : numSections % 2;
 
-    if ((toe > base + 0 * dx && toe <= base + 1 * dx) ||
-        (toe > base + 2 * dx && toe <= base + 3 * dx) ||
-        (toe > base + 4 * dx && toe <= base + 5 * dx)) {
-      this.bottom -= PYR_DY / PYR_DX * this.speed * timeStep;
-    }
-
-    if ((toe < base + 0 * dx && toe >= base + 1 * dx) ||
-        (toe < base + 2 * dx && toe >= base + 3 * dx) ||
-        (toe < base + 4 * dx && toe >= base + 5 * dx)) {
-      this.bottom += PYR_DY / PYR_DX * this.speed * timeStep;
-    }
+    this.bottom = PYR_BOTTOM - ALIEN_HEIGHT - (numLevelsUp + dxUpSlope) * PYR_DY;
 
   }
 

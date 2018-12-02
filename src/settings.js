@@ -13,7 +13,7 @@ import {
 export const KILLS_PER_LEVEL = 3;
 export const START_SCORE = 0;
 export const DRAW_HITBOXES = false;
-export const PLAYER_CAN_DIE = false;
+export const PLAYER_CAN_DIE = true;
 
 
 // how much leeway the hitboxes have
@@ -59,7 +59,7 @@ export const ALIEN_SPEEDS = [
 
 export const BULLET_RADIUS_STRENGTH = [
   5, // less than this, strength 0.5
-  13, // less than this, strength 1
+  15, // less than this, strength 1
       // strength 2
 ];
 
@@ -67,7 +67,7 @@ export const BULLET_RADIUS_STRENGTH = [
 // bullet settings
 export const START_RADIUS = 4;
 export const GRAVITY = 0.0004;
-export const MAX_BULLETS = 4;
+export const MAX_BULLETS = 8;
 export const MAX_SIZE = 20;
 export const MAX_FORM_TIME = 1000;
 export const NUM_SIZES = 7;
@@ -79,8 +79,6 @@ export const bulletVelX = (direction, radius) => {
 export const bulletSpriteMap = (radius, frame) => {
 
   const step = MAX_SIZE / 7;
-
-  // return bulletImages.bullet3;
 
   switch (true) {
     case (radius < 1 * step):
