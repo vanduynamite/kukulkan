@@ -21,7 +21,8 @@ class Bullet {
     this.dir = dir;
     this.timeCreated = timeCreated;
 
-    this.pos = [(GAME_WIDTH + PLAYER_WIDTH * this.dir) / 2, BULLET_HEIGHT];
+    this.startPos = [(GAME_WIDTH + PLAYER_WIDTH * this.dir) / 2, BULLET_HEIGHT];
+    this.pos = this.startPos.slice(0);
     this.moving = false;
   }
 
@@ -31,14 +32,14 @@ class Bullet {
 
     this.radius = bulletLevel * (MAX_SIZE / NUM_SIZES);
     this.strength = bulletStrength(this.radius);
-    this.vel = [bulletVelX(this.dir, this.radius), 0];
+    this.velX = bulletVelX(this.dir, this.radius);
   }
 
-  step(timeStep) {
-    if (this.moving && this.pos && this.vel) {
-      this.pos[0] += this.vel[0] * timeStep;
-      this.pos[1] += this.vel[1] * timeStep;
-      this.vel[1] += GRAVITY * timeStep;
+  step(timeStep, gameTime) {
+    if (this.moving && this.pos && this.velX) {
+      const dt = gameTime - this.timeReleased;
+      this.pos[0] = this.startPos[0] + this.velX * dt;
+      this.pos[1] = this.startPos[1] + 0.5 * GRAVITY * dt ** 2;
     }
   }
 

@@ -64,7 +64,16 @@ class Game {
 
   processBullets() {
     if (this.bulletForming) {
-      this.formBullet(this.bullets[this.bullets.length - 1]);
+      if (this.bullets.length === 0) {
+        this.bulletForming = false;
+      } else {
+        const bullet = this.bullets[this.bullets.length - 1];
+        if (bullet.moving) {
+          this.bulletForming = false;
+        } else {
+          this.formBullet(bullet);
+        }
+      }
     } else {
       if (this.leftDown || this.rightDown) {
         this.bulletForming = true;
@@ -84,9 +93,11 @@ class Game {
   }
 
   formBullet(bullet) {
+    if (!bullet) return;
     if ((bullet.dir === -1 && !this.leftDown) ||
         (bullet.dir === 1 && !this.rightDown)) {
       bullet.moving = true;
+      bullet.timeReleased = this.gameTime;
       this.bulletForming = false;
     } else {
       bullet.updateParameters(this.gameTime);
@@ -95,14 +106,14 @@ class Game {
 
   step(timeStep, gameTime, ctx, frame) {
     this.gameTime = gameTime;
-    this.addAliens();
-    this.processBullets();
     this.allObjects().forEach(obj => obj.step(timeStep, gameTime));
 
     this.draw(ctx, frame);
 
     this.checkBulletCollisions();
     this.checkPlayerCollisions();
+    this.addAliens();
+    this.processBullets();
   }
 
   draw(ctx, frame) {
