@@ -2,17 +2,9 @@ import Player from './player';
 import Alien from './alien';
 import Bullet from './bullet';
 import { calculateDifficulty } from './difficulty';
-import {
-  START_SCORE,
-  PLAYER_CAN_DIE,
-  MAX_BULLETS,
-  GAME_WIDTH,
-  GAME_HEIGHT,
-  PYR_BOTTOM,
-  PYR_LEFT,
-  PYR_DX,
-  PYR_DY,
-} from './settings';
+import * as Settings from './settings';
+import { soundEffects } from './sounds';
+import { sleep } from './util';
 
 class Game {
 
@@ -21,7 +13,7 @@ class Game {
     this.gameTime = 0;
     this.aliens = [];
 
-    this.score = START_SCORE;
+    this.score = Settings.START_SCORE;
     this.gameover = false;
     calculateDifficulty(this);
     this.timeLastAlienAdded = -this.addAlienInterval;
@@ -34,10 +26,17 @@ class Game {
 
     this.background = new Image();
     this.background.src = './dist/assets/pyramid_details.png';
+    this.sounds = soundEffects();
+
+    this.playing = false;
   }
 
-
   keyDownHandler(e) {
+    if (!this.playing) {
+      this.playing = true;
+      this.sounds.music.play();
+    }
+
     if (e.keyCode === 39 && !this.rightDown) this.rightDown = true;
     if (e.keyCode === 37 && !this.leftDown) this.leftDown = true;
   }
@@ -59,35 +58,36 @@ class Game {
 
   addAlien() {
     this.timeLastAlienAdded = this.gameTime;
-    this.aliens.push(new Alien(this.difficulty, this.gameTime));
+    this.aliens.push(new Alien(this));
   }
 
   processBullets() {
     if (this.bulletForming) {
-      if (this.bullets.length === 0) {
-        this.bulletForming = false;
-      } else {
-        const bullet = this.bullets[this.bullets.length - 1];
-        if (bullet.moving) {
-          this.bulletForming = false;
-        } else {
-          this.formBullet(bullet);
-        }
-      }
-    } else {
-      if (this.leftDown || this.rightDown) {
-        this.bulletForming = true;
-        this.createBullet();
-      }
+      if (!this.isValidBullet()) return;
+      this.formBullet(this.bullets[this.bullets.length - 1]);
+    } else if (this.leftDown || this.rightDown) {
+      this.createBullet();
     }
   }
 
-  createBullet() {
-    const dir = this.leftDown ? -1 : 1;
-    this.bullets.push(new Bullet(dir, this.gameTime));
-    this.player.updateDirection(dir);
+  isValidBullet() {
+    if (this.bullets.length === 0 ||
+        this.bullets[this.bullets.length - 1].moving) {
+      this.stopFormingBullet();
+      return false;
+    }
 
-    if (this.bullets.length > MAX_BULLETS) {
+    return true;
+  }
+
+  createBullet() {
+    this.bulletForming = true;
+    const dir = this.leftDown ? -1 : 1;
+    this.bullets.push(new Bullet(this, dir));
+    this.player.updateDirection(dir);
+    this.sounds.chargeUp.play();
+
+    if (this.bullets.length > Settings.MAX_BULLETS) {
       this.bullets = this.bullets.slice(1);
     }
   }
@@ -96,12 +96,17 @@ class Game {
     if (!bullet) return;
     if ((bullet.dir === -1 && !this.leftDown) ||
         (bullet.dir === 1 && !this.rightDown)) {
-      bullet.moving = true;
-      bullet.timeReleased = this.gameTime;
-      this.bulletForming = false;
+
+      bullet.launch(this.gameTime);
+      this.stopFormingBullet();
     } else {
       bullet.updateParameters(this.gameTime);
     }
+  }
+
+  stopFormingBullet() {
+    this.bulletForming = false;
+    this.sounds.chargeUp.stop();
   }
 
   step(timeStep, gameTime, ctx, frame) {
@@ -117,7 +122,7 @@ class Game {
   }
 
   draw(ctx, frame) {
-    ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+    ctx.clearRect(0, 0, Settings.GAME_WIDTH, Settings.GAME_HEIGHT);
     this.drawPyramid(ctx);
     this.allObjects().forEach(obj => obj.draw(ctx, frame));
   }
@@ -159,7 +164,7 @@ class Game {
 
     this.aliens.forEach(alien => {
       if (alien.collidedWithPlayer(this.player)) {
-        if (PLAYER_CAN_DIE) this.gameover = true;
+        this.gameEnd();
       } else {
         newAliens.push(alien);
       }
@@ -167,9 +172,10 @@ class Game {
 
     if (this.gameover) {
       this.aliens = [];
-      this.score = START_SCORE;
+      this.score = Settings.START_SCORE;
       calculateDifficulty(this);
       this.gameover = false;
+      sleep(15000).then(() => this.sounds.music.play());
     } else {
       this.aliens = newAliens;
     }
@@ -177,25 +183,14 @@ class Game {
   }
 
   drawPyramid(ctx) {
-    ctx.drawImage(this.background, 0, 0, 960, 331, 0, 209, 960, 331)
+    ctx.drawImage(this.background, 0, 0, 960, 331, 0, 209, 960, 331);
+  }
 
-    // ctx.beginPath();
-    // ctx.moveTo(0, PYR_BOTTOM - 0 * PYR_DY);
-    // ctx.lineTo(PYR_LEFT + 0 * PYR_DX, PYR_BOTTOM - 0 * PYR_DY);
-    // ctx.lineTo(PYR_LEFT + 1 * PYR_DX, PYR_BOTTOM - 1 * PYR_DY);
-    // ctx.lineTo(PYR_LEFT + 2 * PYR_DX, PYR_BOTTOM - 1 * PYR_DY);
-    // ctx.lineTo(PYR_LEFT + 3 * PYR_DX, PYR_BOTTOM - 2 * PYR_DY);
-    // ctx.lineTo(PYR_LEFT + 4 * PYR_DX, PYR_BOTTOM - 2 * PYR_DY);
-    // ctx.lineTo(PYR_LEFT + 5 * PYR_DX, PYR_BOTTOM - 3 * PYR_DY);
-    // ctx.lineTo(PYR_LEFT + 6 * PYR_DX, PYR_BOTTOM - 3 * PYR_DY);
-    // ctx.lineTo(PYR_LEFT + 7 * PYR_DX, PYR_BOTTOM - 2 * PYR_DY);
-    // ctx.lineTo(PYR_LEFT + 8 * PYR_DX, PYR_BOTTOM - 2 * PYR_DY);
-    // ctx.lineTo(PYR_LEFT + 9 * PYR_DX, PYR_BOTTOM - 1 * PYR_DY);
-    // ctx.lineTo(PYR_LEFT + 10 * PYR_DX, PYR_BOTTOM - 1 * PYR_DY);
-    // ctx.lineTo(PYR_LEFT + 11 * PYR_DX, PYR_BOTTOM - 0 * PYR_DY);
-    // ctx.lineTo(960, PYR_BOTTOM);
-    // ctx.stroke();
-    // ctx.closePath();
+  gameEnd() {
+    if (Settings.PLAYER_CAN_DIE) this.gameover = true;
+    this.sounds.music.stop();
+    sleep(300).then(() => this.sounds.playerDeath.play());
+    sleep(1500).then(() => this.sounds.gameOver.play());
   }
 
 }

@@ -10,6 +10,7 @@ class GameRender {
   startGame() {
     document.addEventListener('keydown', this.game.keyDownHandler.bind(this.game), false);
     document.addEventListener('keyup', this.game.keyUpHandler.bind(this.game), false);
+
     requestAnimationFrame(this.animate.bind(this));
   }
 

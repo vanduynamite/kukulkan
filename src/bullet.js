@@ -13,13 +13,15 @@ import {
   BULLET_HEIGHT,
   bulletSpriteMap,
   DRAW_HITBOXES,
+  launchSounds
 } from './settings';
 
 class Bullet {
 
-  constructor(dir, timeCreated) {
+  constructor(game, dir) {
+    this.game = game;
+    this.timeCreated = game.gameTime;
     this.dir = dir;
-    this.timeCreated = timeCreated;
 
     this.startPos = [(GAME_WIDTH + PLAYER_WIDTH * this.dir) / 2, BULLET_HEIGHT];
     this.pos = this.startPos.slice(0);
@@ -35,11 +37,17 @@ class Bullet {
     this.velX = bulletVelX(this.dir, this.radius);
   }
 
+  launch(timeReleased) {
+    this.moving = true;
+    this.timeReleased = timeReleased;
+    launchSounds(this.radius, this.game.sounds).play();
+  }
+
   step(timeStep, gameTime) {
     if (this.moving && this.pos && this.velX) {
       const dt = gameTime - this.timeReleased;
       this.pos[0] = this.startPos[0] + this.velX * dt;
-      this.pos[1] = this.startPos[1] + 0.5 * GRAVITY * dt ** 2;
+      this.pos[1] = this.startPos[1] + 0.5 * GRAVITY * Math.pow(dt, 2);
     }
   }
 
@@ -47,7 +55,7 @@ class Bullet {
 
     const imgBorder = 4;
 
-    const img = bulletSpriteMap(this.radius, frame)
+    const img = bulletSpriteMap(this.radius, frame);
     ctx.drawImage(img.img, 0, 0, 67, 67,
       this.pos[0] - this.radius - imgBorder, this.pos[1] - this.radius - imgBorder,
       (this.radius + imgBorder) * 2, (this.radius + imgBorder) * 2);

@@ -1,7 +1,7 @@
 import {
   playerImages,
   alienImages,
-  bulletImages,
+  bulletImages
 } from './images';
 
 // 1 = insane
@@ -14,6 +14,7 @@ export const KILLS_PER_LEVEL = 3;
 export const START_SCORE = 0;
 export const DRAW_HITBOXES = false;
 export const PLAYER_CAN_DIE = true;
+export const SOUND_ON = true;
 
 
 // how much leeway the hitboxes have
@@ -104,6 +105,22 @@ export const bulletSpriteMap = (radius, frame) => {
   }
 };
 
+export const launchSounds = (radius, sounds) => {
+
+  switch (true) {
+    case (radius < BULLET_RADIUS_STRENGTH[0]):
+      return sounds.smallLaunch;
+    case (radius < BULLET_RADIUS_STRENGTH[1]):
+      return sounds.mediumLaunch;
+    case (radius >= BULLET_RADIUS_STRENGTH[1]):
+      return sounds.largeLaunch;
+    default:
+      return sounds.smallLaunch;
+  }
+};
+
+
+// alien settings
 export const alienSpriteMap = (health, direction, dead) => {
 
   switch (true) {
@@ -123,6 +140,27 @@ export const alienSpriteMap = (health, direction, dead) => {
       return direction === -1 ? alienImages.alien3 : alienImages.alien3Backwards;
   }
 };
+
+export const hurtSounds = (health, sounds) => {
+  const possibleSounds = [];
+
+  switch (true) {
+    case (health <= 0):
+      possibleSounds.push(sounds.dead1);
+      possibleSounds.push(sounds.dead2);
+      possibleSounds.push(sounds.dead3);
+      break;
+
+    default:
+      possibleSounds.push(sounds.hurt1);
+      possibleSounds.push(sounds.hurt2);
+      possibleSounds.push(sounds.hurt3);
+  }
+
+  return possibleSounds[Math.floor(Math.random() * possibleSounds.length)];
+};
+
+// player settings
 
 export const playerSpriteMap = (direction) => {
 

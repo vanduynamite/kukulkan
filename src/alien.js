@@ -1,6 +1,7 @@
 import Game from './game';
 import { alienHealth, alienSpeed } from './difficulty';
 import {
+  hurtSounds,
   PLAYER_BUFFER,
   BULLET_BUFFER,
   ALIEN_HEIGHT,
@@ -11,21 +12,22 @@ import {
   PYR_LEFT,
   PYR_DX,
   PYR_DY,
-  DRAW_HITBOXES,
+  DRAW_HITBOXES
 } from './settings';
 
 class Alien {
 
-  constructor(difficulty, timeCreated) {
-    this.timeCreated = timeCreated;
+  constructor(game) {
+    this.game = game;
+    this.timeCreated = game.gameTime;
 
     this.dir = Math.sign(Math.random() - 0.5);
     this.leftStart = (GAME_WIDTH - ALIEN_WIDTH) / 2 - this.dir * (GAME_WIDTH + ALIEN_WIDTH) / 2;
     this.left = this.leftStart;
     this.bottom = PYR_BOTTOM - ALIEN_HEIGHT;
 
-    this.health = alienHealth(difficulty);
-    this.speed = alienSpeed(difficulty) * this.dir;
+    this.health = alienHealth(game.difficulty);
+    this.speed = alienSpeed(game.difficulty) * this.dir;
     this.imgObj = alienSpriteMap(this.health, this.dir);
   }
 
@@ -51,13 +53,16 @@ class Alien {
         bullet.pos[1] < this.bottom + ALIEN_HEIGHT + bullet.radius - buffer &&
         bullet.pos[1] > this.bottom - bullet.radius) {
 
-      this.health -= bullet.strength;
-      // TODO: dying alien sprite
-      // if (this.health === 0) this.imgObj = alienSpriteMap(this.health, this.dir, true);
+      this.processDamage(bullet.strength);
       return true;
     }
 
     return false;
+  }
+
+  processDamage(damage) {
+    this.health -= damage;
+    hurtSounds(this.health, this.game.sounds).play();
   }
 
   step(timeStep, gameTime) {
@@ -85,7 +90,7 @@ class Alien {
     const dy = this.bottom - this.imgObj.height / 2 + this.imgObj.bottomBuffer;
     const dw = ALIEN_WIDTH * 3.5;
     const dh = ALIEN_HEIGHT * 2;
-    ctx.drawImage(this.imgObj.img, sx, sy, sw, sh, dx, dy, dw, dh)
+    ctx.drawImage(this.imgObj.img, sx, sy, sw, sh, dx, dy, dw, dh);
 
     if (DRAW_HITBOXES) {
       ctx.beginPath();
