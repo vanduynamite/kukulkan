@@ -4,12 +4,28 @@
     <title>Kukulkan</title>
     <link rel="stylesheet" type="text/css" href="./dist/assets/kukulstyle.css">
     <script type="application/javascript" src="./dist/main.js"></script>
-
+    <link href="https://fonts.googleapis.com/css?family=Orbitron:400,700" rel="stylesheet">
   </head>
   <body>
     <div id='main'>
       <h1>Kukulkan - Revenge of the Mayan God</h1>
-      <canvas id='kukulkanvas'></canvas>
+      <h2>Hold left or right arrow keys to charge and release to shoot!</h2>
+      <div id='main-content'>
+
+        <div id='scoreboard'>
+          <div id='score' class='scorebox'>Score: 0</div>
+          <div id='kills' class='scorebox'>Kills: 0</div>
+        </div>
+        <div id='modal' class='modal-on'>
+          CLICK TO PLAY
+        </div>
+        <canvas id='kukulkanvas'></canvas>
+
+        <div id='game-desc'>The winged serpent god Kukulkan is back with a vengeance
+          and his minions have exterminated all life on earth. As the last priest
+          of the vindictive god, take out as many of the aliens before they get you!
+        </div>
+      </div>
 
     </div>
   </body>

@@ -4,39 +4,24 @@ import Bullet from './bullet';
 import { calculateDifficulty } from './difficulty';
 import * as Settings from './settings';
 import { soundEffects } from './sounds';
-import { sleep } from './util';
+import { scoreKill } from './util';
 
 class Game {
 
   constructor() {
     this.player = new Player();
-    this.gameTime = 0;
-    this.aliens = [];
 
-    this.score = Settings.START_SCORE;
-    this.gameover = false;
-    calculateDifficulty(this);
-    this.timeLastAlienAdded = -this.addAlienInterval;
-
-    this.bullets = [];
     this.bulletForming = false;
-
     this.leftDown = false;
     this.rightDown = false;
 
     this.background = new Image();
     this.background.src = './dist/assets/pyramid_details.png';
     this.sounds = soundEffects();
-
-    this.playing = false;
+    this.musicPlaying = false;
   }
 
   keyDownHandler(e) {
-    if (!this.playing) {
-      this.playing = true;
-      this.sounds.music.play();
-    }
-
     if (e.keyCode === 39 && !this.rightDown) this.rightDown = true;
     if (e.keyCode === 37 && !this.leftDown) this.leftDown = true;
   }
@@ -131,29 +116,27 @@ class Game {
     const newBullets = [];
 
     this.bullets.forEach(bullet => {
-
       let collision = false;
       let alienDead = false;
       let i = 0;
 
       while (i < this.aliens.length && !collision) {
-        const alien = this.aliens[i];
-
-        if (alien.collidedWithBullet(bullet)) {
+        if (this.aliens[i].collidedWithBullet(bullet)) {
           collision = true;
-          alienDead = alien.health <= 0;
+          alienDead = this.aliens[i].health <= 0;
+        } else {
+          i++;
         }
-
-        i++;
       }
 
       if (alienDead) {
-        this.score++;
+        this.kills++;
+        this.score += scoreKill(this.aliens[i]);
         calculateDifficulty(this);
-        this.aliens.splice(i - 1, 1);
+        this.aliens.splice(i, 1);
       }
-      if (!collision) newBullets.push(bullet);
 
+      if (!collision) newBullets.push(bullet);
     });
 
     this.bullets = newBullets;
@@ -164,33 +147,17 @@ class Game {
 
     this.aliens.forEach(alien => {
       if (alien.collidedWithPlayer(this.player)) {
-        this.gameEnd();
+        if (Settings.PLAYER_CAN_DIE) this.gameover = true;
       } else {
         newAliens.push(alien);
       }
     });
 
-    if (this.gameover) {
-      this.aliens = [];
-      this.score = Settings.START_SCORE;
-      calculateDifficulty(this);
-      this.gameover = false;
-      sleep(15000).then(() => this.sounds.music.play());
-    } else {
-      this.aliens = newAliens;
-    }
-
+    this.aliens = newAliens;
   }
 
   drawPyramid(ctx) {
     ctx.drawImage(this.background, 0, 0, 960, 331, 0, 209, 960, 331);
-  }
-
-  gameEnd() {
-    if (Settings.PLAYER_CAN_DIE) this.gameover = true;
-    this.sounds.music.stop();
-    sleep(300).then(() => this.sounds.playerDeath.play());
-    sleep(1500).then(() => this.sounds.gameOver.play());
   }
 
 }

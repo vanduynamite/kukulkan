@@ -8,9 +8,8 @@ import {
 } from './settings';
 
 export const calculateDifficulty = (game) => {
-  game.difficulty = Math.floor(game.score / KILLS_PER_LEVEL);
+  game.difficulty = Math.floor(game.kills / KILLS_PER_LEVEL);
   game.addAlienInterval = calculateAlienInterval(game.difficulty);
-  console.log(`Score: ${game.score}, level: ${game.difficulty}`);
 };
 
 const calculateAlienInterval = (difficulty) => {

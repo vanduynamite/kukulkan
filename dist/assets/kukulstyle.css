@@ -1,22 +1,87 @@
 * {
-  background-color: #7a4291;
-
+  font-family: 'Orbitron', sans-serif;
+}
+body {
+  margin: 0px;
+  width: 100%;
 }
 
 #main {
-  padding: 60px;
+  width: 100%;
+  height: 100%;
+  background-color: #6EC8FB;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
 }
-h1 {
-  color: #7ba1c2;
+
+h1, h2, .scorebox, #game-desc {
+  color: #1351a5;
+  text-shadow: 2px 2px #b8e4fd;
+}
+
+#main-content {
+  width: 960px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#scoreboard {
+  width: 100%;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.modal-on {
+  background-color: black;
+  opacity: 0.5;
+  position: absolute;
+  border-radius: 8px;
+  width: 100%;
+  height: 540px;
+  border: 2px solid #1351a5;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.modal-off {
+  display: none;
 }
 
 #kukulkanvas {
-  /* background-image: url('temple.gif'); */
   background-image: url('desert.gif');
   background-repeat: no-repeat;
-  background-size: 960px 540px;
+  background-size: 100% 540px;
+  border: 2px solid #1351a5;
+  border-radius: 8px;
+}
+
+.scorebox {
+  margin: 20px 20px;
+  padding: 12px 12px 8px 12px;
+  width: 200px;
+  text-align: center;
+  background: #6EC8FB;
+  border: 2px solid #1351a5;
+  border-radius: 5px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+#game-desc {
+  width: 80%;
+  text-align: center;
+  padding: 20px;
+  font-size: 20px;
+  font-weight: 700;
 }

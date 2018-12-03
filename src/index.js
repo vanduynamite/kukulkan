@@ -1,5 +1,5 @@
 import Game from './game';
-import GameRender from './game_render';
+import GameLoop from './game_loop';
 import { GAME_WIDTH, GAME_HEIGHT } from './settings';
 
 
@@ -9,6 +9,14 @@ document.addEventListener("DOMContentLoaded", () => {
   canvas.width = GAME_WIDTH;
   canvas.height = GAME_HEIGHT;
 
+  const modalEl = document.getElementById('modal');
   const game = new Game(ctx);
-  new GameRender(game, ctx).startGame();
+  const gameLoop = new GameLoop(game, ctx, modalEl);
+
+  modalEl.onclick = e => {
+    modalEl.classList.remove('modal-on');
+    modalEl.classList.add('modal-off');
+    gameLoop.startGame();
+  };
+
 });

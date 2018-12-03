@@ -1,19 +1,6 @@
 import Game from './game';
 import { alienHealth, alienSpeed } from './difficulty';
-import {
-  hurtSounds,
-  PLAYER_BUFFER,
-  BULLET_BUFFER,
-  ALIEN_HEIGHT,
-  ALIEN_WIDTH,
-  GAME_WIDTH,
-  alienSpriteMap,
-  PYR_BOTTOM,
-  PYR_LEFT,
-  PYR_DX,
-  PYR_DY,
-  DRAW_HITBOXES
-} from './settings';
+import * as Settings from './settings';
 
 class Alien {
 
@@ -22,23 +9,24 @@ class Alien {
     this.timeCreated = game.gameTime;
 
     this.dir = Math.sign(Math.random() - 0.5);
-    this.leftStart = (GAME_WIDTH - ALIEN_WIDTH) / 2 - this.dir * (GAME_WIDTH + ALIEN_WIDTH) / 2;
+    this.leftStart = (Settings.GAME_WIDTH - Settings.ALIEN_WIDTH) / 2 - this.dir * (Settings.GAME_WIDTH + Settings.ALIEN_WIDTH) / 2;
     this.left = this.leftStart;
-    this.bottom = PYR_BOTTOM - ALIEN_HEIGHT;
+    this.bottom = Settings.PYR_BOTTOM - Settings.ALIEN_HEIGHT;
 
-    this.health = alienHealth(game.difficulty);
+    this.originalHealth = alienHealth(game.difficulty);
+    this.health = this.originalHealth;
     this.speed = alienSpeed(game.difficulty) * this.dir;
-    this.imgObj = alienSpriteMap(this.health, this.dir);
+    this.imgObj = Settings.alienSpriteMap(this.health, this.dir);
   }
 
   collidedWithPlayer(player) {
-    const buffer = PLAYER_BUFFER;
+    const buffer = Settings.PLAYER_BUFFER;
 
     if ((this.left < player.left + player.width - buffer) && this.dir == -1) {
       return true;
     }
 
-    if ((this.left + ALIEN_WIDTH - buffer > player.left) && this.dir == 1) {
+    if ((this.left + Settings.ALIEN_WIDTH - buffer > player.left) && this.dir == 1) {
       return true;
     }
 
@@ -46,11 +34,11 @@ class Alien {
   }
 
   collidedWithBullet(bullet) {
-    const buffer = BULLET_BUFFER;
+    const buffer = Settings.BULLET_BUFFER;
 
     if (bullet.pos[0] > this.left - bullet.radius + buffer &&
-        bullet.pos[0] < this.left + ALIEN_WIDTH + bullet.radius - buffer &&
-        bullet.pos[1] < this.bottom + ALIEN_HEIGHT + bullet.radius - buffer &&
+        bullet.pos[0] < this.left + Settings.ALIEN_WIDTH + bullet.radius - buffer &&
+        bullet.pos[1] < this.bottom + Settings.ALIEN_HEIGHT + bullet.radius - buffer &&
         bullet.pos[1] > this.bottom - bullet.radius) {
 
       this.processDamage(bullet.strength);
@@ -62,39 +50,40 @@ class Alien {
 
   processDamage(damage) {
     this.health -= damage;
-    hurtSounds(this.health, this.game.sounds).play();
+    Settings.hurtSounds(this.health, this.game.sounds).play();
   }
 
   step(timeStep, gameTime) {
     const dt = gameTime - this.timeCreated;
     this.left = this.leftStart + this.speed * dt;
 
-    const toe = this.left + ALIEN_WIDTH * 0.5;
-    const base = GAME_WIDTH / 2 - (GAME_WIDTH / 2 - PYR_LEFT) * this.dir;
-    const numSections = Math.max((toe - base) / PYR_DX * this.dir, 0);
+    const toe = this.left + Settings.ALIEN_WIDTH * 0.5;
+    const halfGameWidth = Settings.GAME_WIDTH / 2;
+    const base = halfGameWidth - (halfGameWidth - Settings.PYR_LEFT) * this.dir;
+    const numSections = Math.max((toe - base) / Settings.PYR_DX * this.dir, 0);
     const numLevelsUp = Math.ceil(Math.floor(numSections) / 2);
     const dxUpSlope = numSections % 2 > 1 ? 0 : numSections % 2;
+    const baseBottom = Settings.PYR_BOTTOM - Settings.ALIEN_HEIGHT;
 
-    this.bottom = PYR_BOTTOM - ALIEN_HEIGHT - (numLevelsUp + dxUpSlope) * PYR_DY;
-
+    this.bottom =  baseBottom - (numLevelsUp + dxUpSlope) * Settings.PYR_DY;
   }
 
   draw(ctx, frame) {
     const sprite = Math.floor(frame / (60 / this.imgObj.frames));
 
-    const sx = this.imgObj.start - this.imgObj.width * sprite * this.dir;
-    const sy = this.imgObj.height * this.imgObj.row;
-    const sw = this.imgObj.width;
-    const sh = this.imgObj.height;
-    const dx = this.left - (this.imgObj.width - ALIEN_WIDTH) / 2 + this.imgObj.sideBuffer;
-    const dy = this.bottom - this.imgObj.height / 2 + this.imgObj.bottomBuffer;
-    const dw = ALIEN_WIDTH * 3.5;
-    const dh = ALIEN_HEIGHT * 2;
-    ctx.drawImage(this.imgObj.img, sx, sy, sw, sh, dx, dy, dw, dh);
+    ctx.drawImage(this.imgObj.img,
+      this.imgObj.start - this.imgObj.width * sprite * this.dir,
+      this.imgObj.height * this.imgObj.row,
+      this.imgObj.width,
+      this.imgObj.height,
+      this.left - (this.imgObj.width - Settings.ALIEN_WIDTH) / 2 + this.imgObj.sideBuffer,
+      this.bottom - this.imgObj.height / 2 + this.imgObj.bottomBuffer,
+      Settings.ALIEN_WIDTH * 3.5,
+      Settings.ALIEN_HEIGHT * 2);
 
-    if (DRAW_HITBOXES) {
+    if (Settings.DRAW_HITBOXES) {
       ctx.beginPath();
-      ctx.rect(this.left, this.bottom, ALIEN_WIDTH, ALIEN_HEIGHT);
+      ctx.rect(this.left, this.bottom, Settings.ALIEN_WIDTH, Settings.ALIEN_HEIGHT);
       ctx.stroke();
       ctx.closePath();
     }

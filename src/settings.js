@@ -10,8 +10,8 @@ import {
 // 4 = easy
 // 5 = beginner
 // it's about 30 seconds per level
-export const KILLS_PER_LEVEL = 3;
-export const START_SCORE = 0;
+export const KILLS_PER_LEVEL = 2;
+export const START_KILLS = 0;
 export const DRAW_HITBOXES = false;
 export const PLAYER_CAN_DIE = true;
 export const SOUND_ON = true;
@@ -34,10 +34,10 @@ export const ALIEN_INTERVAL_LEVELS = [
 
 export const ALIEN_HEALTH_LEVELS = [
   1, // all weak
-  3, // 75% weak, 25% hearty
-  7, // 50% weak, 50% hearty
-  14, // 50% weak, 25% hearty, 25% strong
-      // 25% weak, 50% hearty, 25% strong
+  3, // 75% weak, 25% medium
+  7, // 50% weak, 50% medium
+  14, // 50% weak, 25% medium, 25% strong
+      // 25% weak, 50% medium, 25% strong
 ];
 
 export const ALIEN_SPEED_LEVELS = [
