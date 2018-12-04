@@ -13,7 +13,7 @@ import {
 export const KILLS_PER_LEVEL = 2;
 export const START_KILLS = 0;
 export const DRAW_HITBOXES = false;
-export const PLAYER_CAN_DIE = true;
+export const PLAYER_CAN_DIE = false;
 export const SOUND_ON = true;
 
 
@@ -184,7 +184,7 @@ export const PYR_DX = (GAME_WIDTH - 2 * PYR_LEFT) / (PYR_SLOPES * 4 - 1);
 // Game dimensions
 export const GAME_HEIGHT = 540;
 export const PLAYER_WIDTH = 60;
-export const PLAYER_HEIGHT = 95;
+export const PLAYER_HEIGHT = 93;
 export const PLAYER_BASE_HEIGHT = PYR_BOTTOM - PYR_DY * PYR_SLOPES - PLAYER_HEIGHT;
 export const BULLET_HEIGHT = PLAYER_BASE_HEIGHT + 0.35 * PLAYER_HEIGHT;
 export const ALIEN_WIDTH = 52;

@@ -157,7 +157,7 @@ class Game {
   }
 
   drawPyramid(ctx) {
-    ctx.drawImage(this.background, 0, 0, 960, 331, 0, 209, 960, 331);
+    ctx.drawImage(this.background, 0, 0, 1920, 662, 0, 209, 960, 331);
   }
 
 }

@@ -9,7 +9,8 @@ body {
 #main {
   width: 100%;
   height: 100%;
-  background-color: #6EC8FB;
+  /* background-color: #0065a3; */
+  background-image: linear-gradient(#1D518F, #4CA4D8);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,8 +18,8 @@ body {
 }
 
 h1, h2, .scorebox, #game-desc {
-  color: #1351a5;
-  text-shadow: 2px 2px #b8e4fd;
+  color: #e1cf85;
+  text-shadow: 2px 2px #000000;
 }
 
 #main-content {
@@ -62,7 +63,7 @@ h1, h2, .scorebox, #game-desc {
   background-image: url('desert.gif');
   background-repeat: no-repeat;
   background-size: 100% 540px;
-  border: 2px solid #1351a5;
+  border: 2px solid #124487;
   border-radius: 8px;
 }
 
@@ -71,8 +72,8 @@ h1, h2, .scorebox, #game-desc {
   padding: 12px 12px 8px 12px;
   width: 200px;
   text-align: center;
-  background: #6EC8FB;
-  border: 2px solid #1351a5;
+  background: #2B669E;
+  border: 2px solid #124487;
   border-radius: 5px;
   font-size: 20px;
   font-weight: 700;
