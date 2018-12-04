@@ -46,6 +46,20 @@ class Game {
     this.leftDown = false;
   }
 
+  touchDownHandler(e) {
+    e.preventDefault();
+    const clickLocation = e.changedTouches[0].pageX;
+    const docWidth = document.documentElement.clientWidth;
+    if (clickLocation > docWidth / 2 && !this.rightDown) this.rightDown = true;
+    if (clickLocation <= docWidth / 2 && !this.leftDown) this.leftDown = true;
+  }
+
+  touchUpHandler(e) {
+    // e.preventDefault(); // I didn't forget this, it causes it to not work!
+    this.rightDown = false;
+    this.leftDown = false;
+  }
+
   allObjects() {
     return [].concat(this.player, this.aliens, this.bullets);
   }
