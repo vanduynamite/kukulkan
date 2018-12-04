@@ -31,8 +31,8 @@ class GameLoop {
     this.diffEl.onclick = this.toggleDifficulty.bind(this);
     document.addEventListener('keydown', this.game.keyDownHandler.bind(this.game), false);
     document.addEventListener('keyup', this.game.keyUpHandler.bind(this.game), false);
-    this.canvas.onmousedown = this.game.mouseDownHandler.bind(this.game);
-    document.onmouseup = this.game.mouseUpHandler.bind(this.game);
+    this.canvas.ontouchstart = this.game.mouseDownHandler.bind(this.game);
+    document.ontouchend = this.game.mouseUpHandler.bind(this.game);
   }
 
   startGame() {
