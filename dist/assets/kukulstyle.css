@@ -4,22 +4,65 @@
 body {
   margin: 0px;
   width: 100%;
+  /* height: 100%; */
 }
 
 #main {
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   /* background-color: #0065a3; */
-  background-image: linear-gradient(#1D518F, #4CA4D8);
+  background-image: linear-gradient(#1D518F, #5EBCE6);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
 }
 
-h1, h2, .scorebox, #game-desc {
-  color: #e1cf85;
+h1, #instructions, .scorebox, #game-desc, .info, #settings {
+  color: #FDEA4D;
   text-shadow: 2px 2px #000000;
+  font-weight: 400;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #9DC83E;
+}
+
+.info {
+  width: 500px;
+  background: #5EBCE6;
+  border-radius: 5px;
+  border: 2px solid black;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 50px;
+}
+
+#info-subtitle {
+  font-size: 24px;
+}
+
+#info-links {
+  padding: 30px 0px 0px 0px;
+  width: 450px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#settings {
+  width: 500px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 20px 0px;
 }
 
 #main-content {
@@ -63,7 +106,7 @@ h1, h2, .scorebox, #game-desc {
   background-image: url('desert.gif');
   background-repeat: no-repeat;
   background-size: 100% 540px;
-  border: 2px solid #124487;
+  border: 2px solid #000000;
   border-radius: 8px;
 }
 
@@ -72,17 +115,26 @@ h1, h2, .scorebox, #game-desc {
   padding: 12px 12px 8px 12px;
   width: 200px;
   text-align: center;
-  background: #2B669E;
-  border: 2px solid #124487;
+  background: #5EBCE6;
+  border: 2px solid #000000;
   border-radius: 5px;
   font-size: 20px;
   font-weight: 700;
 }
 
+#instructions {
+  font-size: 24px;
+  margin-top: 30px;
+}
+
 #game-desc {
   width: 80%;
   text-align: center;
-  padding: 20px;
+  margin: 30px;
   font-size: 20px;
-  font-weight: 700;
+  /* font-weight: 700; */
+}
+
+#bottom-info {
+  margin-bottom: 40px;
 }

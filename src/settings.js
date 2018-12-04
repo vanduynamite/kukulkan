@@ -10,10 +10,10 @@ import {
 // 4 = easy
 // 5 = beginner
 // it's about 30 seconds per level
-export const KILLS_PER_LEVEL = 2;
+export const KILLS_PER_LEVEL = 3;
 export const START_KILLS = 0;
 export const DRAW_HITBOXES = false;
-export const PLAYER_CAN_DIE = false;
+export const PLAYER_CAN_DIE = true;
 export const SOUND_ON = true;
 
 
