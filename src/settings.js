@@ -4,19 +4,12 @@ import {
   bulletImages
 } from './images';
 
-// 1 = insane
-// 2 = hard
-// 3 = normal
-// 4 = easy
-// 5 = beginner
-// it's about 30 seconds per level
 export const START_KILLS = 0;
 export const PLAYER_CAN_DIE = true;
 
 // how much leeway the hitboxes have
 export const PLAYER_BUFFER = 10; // higher is easier
 export const BULLET_BUFFER = 5; // higher is harder. can go negative.
-
 
 // difficulty ramp
 export const ALIEN_INTERVAL_LEVELS = [

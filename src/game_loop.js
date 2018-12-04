@@ -4,16 +4,20 @@ import { sleep } from './util';
 
 class GameLoop {
 
-  constructor(game, canvas, modalEl) {
+  constructor(game, canvas) {
     this.game = game;
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
     this.frame = 0;
-    this.modalEl = modalEl;
     this.soundOn = true;
     this.musicOn = true;
     this.difficulty = 3;
 
+    this.setupControls();
+  }
+
+  setupControls() {
+    this.modalEl = document.getElementById('modal');
     this.scoreEl = document.getElementById('score');
     this.killsEl = document.getElementById('kills');
     this.soundEl = document.getElementById('sound');
@@ -21,20 +25,27 @@ class GameLoop {
     this.hitboxEl = document.getElementById('hitboxes');
     this.diffEl = document.getElementById('difficulty');
 
-    this.setupControls();
-  }
-
-  setupControls() {
     this.soundEl.onclick = this.toggleSound.bind(this);
     this.musicEl.onclick = this.toggleMusic.bind(this);
     this.hitboxEl.onclick = this.toggleHitboxes.bind(this);
     this.diffEl.onclick = this.toggleDifficulty.bind(this);
+
+    this.modalEl.onclick = this.clickModalToStart.bind(this);
+
     document.addEventListener('keydown', this.game.keyDownHandler.bind(this.game), false);
     document.addEventListener('keyup', this.game.keyUpHandler.bind(this.game), false);
     this.canvas.onmousedown = this.game.mouseDownHandler.bind(this.game);
     document.onmouseup = this.game.mouseUpHandler.bind(this.game);
     this.canvas.ontouchstart = this.game.touchDownHandler.bind(this.game);
     document.ontouchend = this.game.touchUpHandler.bind(this.game);
+  }
+
+  clickModalToStart(e) {
+    e.preventDefault();
+    this.modalEl.classList.remove('modal-on');
+    this.modalEl.classList.add('modal-off');
+    this.modalEl.onclick = e => e.preventDefault();
+    this.startGame();
   }
 
   startGame() {
@@ -80,6 +91,7 @@ class GameLoop {
     sleep(1500).then(() => {
       this.ctx.clearRect(0, 0, Settings.GAME_WIDTH, Settings.GAME_HEIGHT);
       this.game.sounds.gameOver.play();
+      this.modalEl.onclick = this.clickModalToStart.bind(this);
     });
   }
 

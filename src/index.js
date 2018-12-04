@@ -8,14 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   canvas.width = GAME_WIDTH;
   canvas.height = GAME_HEIGHT;
 
-  const modalEl = document.getElementById('modal');
   const game = new Game(canvas.getContext('2d'));
-  const gameLoop = new GameLoop(game, canvas, modalEl);
-
-  modalEl.onclick = e => {
-    modalEl.classList.remove('modal-on');
-    modalEl.classList.add('modal-off');
-    gameLoop.startGame();
-  };
+  const gameLoop = new GameLoop(game, canvas);
 
 });

@@ -4,13 +4,11 @@
 body {
   margin: 0px;
   width: 100%;
-  /* height: 100%; */
 }
 
 #main {
   width: 100%;
-  /* height: 100%; */
-  /* background-color: #0065a3; */
+  min-height: 100vh;
   background-image: linear-gradient(#1D518F, #5EBCE6);
   display: flex;
   flex-direction: column;
@@ -129,7 +127,9 @@ a:hover {
 }
 
 #instructions {
+  width: 800px;
   font-size: 24px;
+  line-height: 30px;
   margin-top: 30px;
   font-weight: 700;
   text-align: center;
@@ -140,7 +140,7 @@ a:hover {
   text-align: center;
   margin: 30px;
   font-size: 20px;
-  /* font-weight: 700; */
+  line-height: 26px;
 }
 
 #bottom-info {
