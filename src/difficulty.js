@@ -1,14 +1,13 @@
 import {
-  KILLS_PER_LEVEL,
   ALIEN_INTERVAL_LEVELS,
   ALIEN_HEALTH_LEVELS,
   ALIEN_SPEED_LEVELS,
   ALIEN_SPEEDS,
-  BULLET_RADIUS_STRENGTH,
+  BULLET_RADIUS_STRENGTH
 } from './settings';
 
 export const calculateDifficulty = (game) => {
-  game.difficulty = Math.floor(game.kills / KILLS_PER_LEVEL);
+  game.difficulty = Math.floor(game.kills / game.killsPerLevel);
   game.addAlienInterval = calculateAlienInterval(game.difficulty);
 };
 

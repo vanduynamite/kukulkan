@@ -81,7 +81,7 @@ class Alien {
       Settings.ALIEN_WIDTH * 3.5,
       Settings.ALIEN_HEIGHT * 2);
 
-    if (Settings.DRAW_HITBOXES) {
+    if (this.game.hitboxes) {
       ctx.beginPath();
       ctx.rect(this.left, this.bottom, Settings.ALIEN_WIDTH, Settings.ALIEN_HEIGHT);
       ctx.stroke();

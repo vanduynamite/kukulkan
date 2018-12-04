@@ -9,10 +9,25 @@ class GameLoop {
     this.ctx = ctx;
     this.frame = 0;
     this.modalEl = modalEl;
+    this.soundOn = true;
+    this.musicOn = true;
+    this.difficulty = 3;
 
     this.scoreEl = document.getElementById('score');
     this.killsEl = document.getElementById('kills');
+    this.soundEl = document.getElementById('sound');
+    this.musicEl = document.getElementById('music');
+    this.hitboxEl = document.getElementById('hitboxes');
+    this.diffEl = document.getElementById('difficulty');
 
+    this.setupControls();
+  }
+
+  setupControls() {
+    this.soundEl.onclick = this.toggleSound.bind(this);
+    this.musicEl.onclick = this.toggleMusic.bind(this);
+    this.hitboxEl.onclick = this.toggleHitboxes.bind(this);
+    this.diffEl.onclick = this.toggleDifficulty.bind(this);
     document.addEventListener('keydown', this.game.keyDownHandler.bind(this.game), false);
     document.addEventListener('keyup', this.game.keyUpHandler.bind(this.game), false);
   }
@@ -20,6 +35,7 @@ class GameLoop {
   startGame() {
     this.game.kills = Settings.START_KILLS;
     this.game.score = 0;
+    this.game.killsPerLevel = this.difficulty;
     this.game.gameover = false;
     this.game.gameTime = 0;
     calculateDifficulty(this.game);
@@ -66,6 +82,54 @@ class GameLoop {
     if (this.killsEl.innerHTML !== `Kills: ${this.game.kills}`) {
       this.killsEl.innerHTML = `Kills: ${this.game.kills}`;
     }
+  }
+
+  toggleSound(e) {
+    e.preventDefault();
+    this.soundOn = !this.soundOn;
+    this.soundEl.innerHTML = this.soundOn ? 'Sound On' : 'Sound Off';
+    Object.values(this.game.sounds).forEach(sound => sound.toggleSound(this.soundOn));
+  }
+
+  toggleMusic(e) {
+    e.preventDefault();
+    this.musicOn = !this.musicOn;
+    this.musicEl.innerHTML = this.musicOn ? 'Music On' : 'Music Off';
+    Object.values(this.game.sounds).forEach(sound => {
+      sound.toggleMusic(this.musicOn, this.game.gameover);
+    });
+  }
+
+  toggleHitboxes(e) {
+    e.preventDefault();
+    this.game.hitboxes = !this.game.hitboxes;
+    this.hitboxEl.innerHTML = this.game.hitboxes ? 'Hitboxes On' : 'Hitboxes Off';
+  }
+
+  toggleDifficulty(e) {
+    e.preventDefault();
+    switch (this.difficulty) {
+      case 1:
+        this.difficulty = 3;
+        this.diffEl.innerHTML = 'Difficulty: Normal';
+        break;
+
+      case 3:
+        this.difficulty = 4;
+        this.diffEl.innerHTML = 'Difficulty: Easy';
+        break;
+
+      case 4:
+        this.difficulty = 1;
+        this.diffEl.innerHTML = 'Difficulty: Hard';
+        break;
+
+      default:
+        this.difficulty = 3;
+        this.diffEl.innerHTML = 'Difficulty: Normal';
+    }
+    // haha! this would allow the difficulty to change mid-game
+    // this.game.killsPerLevel = this.difficulty;
   }
 
 }

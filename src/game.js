@@ -9,7 +9,9 @@ import { scoreKill } from './util';
 class Game {
 
   constructor() {
-    this.player = new Player();
+    this.player = new Player(this);
+    this.gameover = true;
+    this.hitboxes = false;
 
     this.bulletForming = false;
     this.leftDown = false;
@@ -131,7 +133,7 @@ class Game {
 
       if (alienDead) {
         this.kills++;
-        this.score += scoreKill(this.aliens[i]);
+        this.score += scoreKill(this.aliens[i], this.killsPerLevel);
         calculateDifficulty(this);
         this.aliens.splice(i, 1);
       }
@@ -158,6 +160,25 @@ class Game {
 
   drawPyramid(ctx) {
     ctx.drawImage(this.background, 0, 0, 1920, 662, 0, 209, 960, 331);
+    if (this.hitboxes) {
+      ctx.beginPath();
+      ctx.moveTo(0, Settings.PYR_BOTTOM - 0 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEFT + 0 * Settings.PYR_DX, Settings.PYR_BOTTOM - 0 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEFT + 1 * Settings.PYR_DX, Settings.PYR_BOTTOM - 1 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEFT + 2 * Settings.PYR_DX, Settings.PYR_BOTTOM - 1 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEFT + 3 * Settings.PYR_DX, Settings.PYR_BOTTOM - 2 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEFT + 4 * Settings.PYR_DX, Settings.PYR_BOTTOM - 2 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEFT + 5 * Settings.PYR_DX, Settings.PYR_BOTTOM - 3 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEFT + 6 * Settings.PYR_DX, Settings.PYR_BOTTOM - 3 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEFT + 7 * Settings.PYR_DX, Settings.PYR_BOTTOM - 2 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEFT + 8 * Settings.PYR_DX, Settings.PYR_BOTTOM - 2 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEFT + 9 * Settings.PYR_DX, Settings.PYR_BOTTOM - 1 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEFT + 10 * Settings.PYR_DX, Settings.PYR_BOTTOM - 1 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEFT + 11 * Settings.PYR_DX, Settings.PYR_BOTTOM - 0 * Settings.PYR_DY);
+      ctx.lineTo(960, Settings.PYR_BOTTOM);
+      ctx.stroke();
+      ctx.closePath();
+    }
   }
 
 }

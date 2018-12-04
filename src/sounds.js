@@ -6,19 +6,21 @@ import {
 
 class SoundEffect {
 
-  constructor(src, volume) {
+  constructor(src, volume, isMusic) {
     this.sound = document.createElement('audio');
     this.sound.src = src;
     this.sound.setAttribute("preload", "auto");
     this.sound.setAttribute('controls', 'none');
     this.sound.style.display = 'none';
     this.sound.volume = volume || '0.35';
+    this.soundOn = true;
     document.body.appendChild(this.sound);
+    this.isMusic = isMusic;
   }
 
   play() {
     this.sound.currentTime = 0;
-    if (SOUND_ON) this.sound.play();
+    if (this.soundOn) this.sound.play();
   }
 
   stop() {
@@ -26,11 +28,24 @@ class SoundEffect {
     return true;
   }
 
+  toggleSound(boolean) {
+    if (this.isMusic) return;
+    this.soundOn = boolean;
+    if (!this.soundOn) this.stop();
+  }
+
+  toggleMusic(boolean, gameover) {
+    if (!this.isMusic) return;
+    this.soundOn = boolean;
+    if (this.soundOn && !gameover) this.play();
+    if (!this.soundOn) this.stop();
+  }
+
 }
 
 export const soundEffects = () => {
   const sounds = {
-    music: new SoundEffect('./dist/assets/music.wav', '0.25'),
+    music: new SoundEffect('./dist/assets/music.wav', '0.25', true),
     gameOver: new SoundEffect('./dist/assets/game_over.wav', '0.35'),
     chargeUp: new SoundEffect('./dist/assets/charge_up.mp3', '0.35'),
     smallLaunch: new SoundEffect('./dist/assets/small_launch.wav', '0.2'),

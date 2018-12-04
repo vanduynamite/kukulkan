@@ -12,7 +12,6 @@ import {
   PLAYER_WIDTH,
   BULLET_HEIGHT,
   bulletSpriteMap,
-  DRAW_HITBOXES,
   launchSounds
 } from './settings';
 
@@ -60,7 +59,7 @@ class Bullet {
       this.pos[0] - this.radius - imgBorder, this.pos[1] - this.radius - imgBorder,
       (this.radius + imgBorder) * 2, (this.radius + imgBorder) * 2);
 
-    if (DRAW_HITBOXES) {
+    if (this.game.hitboxes) {
       ctx.beginPath();
       ctx.arc(this.pos[0], this.pos[1], this.radius, 0, Math.PI * 2, true);
       ctx.stroke();

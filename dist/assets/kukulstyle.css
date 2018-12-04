@@ -31,6 +31,12 @@ a {
 
 a:hover {
   color: #9DC83E;
+  cursor: pointer;
+}
+
+.hover-effect:hover {
+  color: #9DC83E;
+  cursor: pointer;
 }
 
 .info {
@@ -58,7 +64,7 @@ a:hover {
 }
 
 #settings {
-  width: 500px;
+  width: 600px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -125,6 +131,7 @@ a:hover {
 #instructions {
   font-size: 24px;
   margin-top: 30px;
+  font-weight: 700;
 }
 
 #game-desc {

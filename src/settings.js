@@ -10,12 +10,8 @@ import {
 // 4 = easy
 // 5 = beginner
 // it's about 30 seconds per level
-export const KILLS_PER_LEVEL = 3;
 export const START_KILLS = 0;
-export const DRAW_HITBOXES = false;
 export const PLAYER_CAN_DIE = true;
-export const SOUND_ON = true;
-
 
 // how much leeway the hitboxes have
 export const PLAYER_BUFFER = 10; // higher is easier
@@ -175,9 +171,9 @@ export const playerSpriteMap = (direction) => {
 
 export const GAME_WIDTH = 960;
 // Pyramid dimensions
-export const PYR_BOTTOM = 450;
-export const PYR_LEFT = 80;
-export const PYR_DY = 80;
+export const PYR_BOTTOM = 450; //450
+export const PYR_LEFT = 80; //80
+export const PYR_DY = 80; //80
 const PYR_SLOPES = 3;
 export const PYR_DX = (GAME_WIDTH - 2 * PYR_LEFT) / (PYR_SLOPES * 4 - 1);
 

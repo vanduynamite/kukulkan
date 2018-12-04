@@ -4,13 +4,13 @@ import {
   PLAYER_WIDTH,
   PLAYER_HEIGHT,
   PLAYER_BASE_HEIGHT,
-  DRAW_HITBOXES,
   playerSpriteMap,
 } from './settings';
 
 class Player {
 
-  constructor() {
+  constructor(game) {
+    this.game = game;
     this.width = PLAYER_WIDTH;
     this.left = GAME_WIDTH / 2 - this.width / 2;
     this.direction = 1;
@@ -41,7 +41,7 @@ class Player {
     ctx.drawImage(imgObj.img, sx, 0, imgObj.width, imgObj.height,
       dx, dy, imgObj.width, imgObj.height)
 
-    if (DRAW_HITBOXES) {
+    if (this.game.hitboxes) {
       ctx.beginPath();
       ctx.rect(this.left, this.bottom, this.width, this.height);
       ctx.stroke();
