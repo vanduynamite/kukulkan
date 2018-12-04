@@ -4,9 +4,10 @@ import { sleep } from './util';
 
 class GameLoop {
 
-  constructor(game, ctx, modalEl) {
+  constructor(game, canvas, modalEl) {
     this.game = game;
-    this.ctx = ctx;
+    this.canvas = canvas;
+    this.ctx = canvas.getContext('2d');
     this.frame = 0;
     this.modalEl = modalEl;
     this.soundOn = true;
@@ -30,9 +31,12 @@ class GameLoop {
     this.diffEl.onclick = this.toggleDifficulty.bind(this);
     document.addEventListener('keydown', this.game.keyDownHandler.bind(this.game), false);
     document.addEventListener('keyup', this.game.keyUpHandler.bind(this.game), false);
+    this.canvas.onmousedown = this.game.mouseDownHandler.bind(this.game);
+    document.onmouseup = this.game.mouseUpHandler.bind(this.game);
   }
 
   startGame() {
+    this.game.sounds.gameOver.stop();
     this.game.kills = Settings.START_KILLS;
     this.game.score = 0;
     this.game.killsPerLevel = this.difficulty;
@@ -42,7 +46,6 @@ class GameLoop {
     this.game.aliens = [];
     this.game.timeLastAlienAdded = -this.game.addAlienInterval;
     this.game.bullets = [];
-    this.game.sounds.gameOver.stop();
     this.game.sounds.music.play();
 
     requestAnimationFrame(this.animate.bind(this));
@@ -72,7 +75,10 @@ class GameLoop {
     this.modalEl.classList.remove('modal-off');
     this.modalEl.classList.add('modal-on');
     sleep(300).then(() => this.game.sounds.playerDeath.play());
-    sleep(1500).then(() => this.game.sounds.gameOver.play());
+    sleep(1500).then(() => {
+      this.ctx.clearRect(0, 0, Settings.GAME_WIDTH, Settings.GAME_HEIGHT);
+      this.game.sounds.gameOver.play();
+    });
   }
 
   updateScore() {

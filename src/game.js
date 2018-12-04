@@ -33,6 +33,19 @@ class Game {
     if (e.keyCode === 37) this.leftDown = false;
   }
 
+  mouseDownHandler(e) {
+    e.preventDefault();
+    const docWidth = document.documentElement.clientWidth;
+    if (e.pageX > docWidth / 2 && !this.rightDown) this.rightDown = true;
+    if (e.pageX <= docWidth / 2 && !this.leftDown) this.leftDown = true;
+  }
+
+  mouseUpHandler(e) {
+    e.preventDefault();
+    this.rightDown = false;
+    this.leftDown = false;
+  }
+
   allObjects() {
     return [].concat(this.player, this.aliens, this.bullets);
   }
