@@ -107,14 +107,14 @@ class GameLoop {
   toggleSound(e) {
     e.preventDefault();
     this.soundOn = !this.soundOn;
-    this.soundEl.innerHTML = this.soundOn ? 'Sound On' : 'Sound Off';
+    this.soundEl.innerHTML = this.soundOn ? 'Sound: On' : 'Sound: Off';
     Object.values(this.game.sounds).forEach(sound => sound.toggleSound(this.soundOn));
   }
 
   toggleMusic(e) {
     e.preventDefault();
     this.musicOn = !this.musicOn;
-    this.musicEl.innerHTML = this.musicOn ? 'Music On' : 'Music Off';
+    this.musicEl.innerHTML = this.musicOn ? 'Music: On' : 'Music: Off';
     Object.values(this.game.sounds).forEach(sound => {
       sound.toggleMusic(this.musicOn, this.game.gameover);
     });
@@ -123,7 +123,7 @@ class GameLoop {
   toggleHitboxes(e) {
     e.preventDefault();
     this.game.hitboxes = !this.game.hitboxes;
-    this.hitboxEl.innerHTML = this.game.hitboxes ? 'Hitboxes On' : 'Hitboxes Off';
+    this.hitboxEl.innerHTML = this.game.hitboxes ? 'Hitboxes: On' : 'Hitboxes: Off';
   }
 
   toggleDifficulty(e) {
