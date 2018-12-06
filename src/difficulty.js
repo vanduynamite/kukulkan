@@ -1,10 +1,4 @@
-import {
-  ALIEN_INTERVAL_LEVELS,
-  ALIEN_HEALTH_LEVELS,
-  ALIEN_SPEED_LEVELS,
-  ALIEN_SPEEDS,
-  BULLET_RADIUS_STRENGTH
-} from './settings';
+import * as Settings from './settings';
 
 export const calculateDifficulty = (game) => {
   game.difficulty = Math.floor(game.kills / game.killsPerLevel);
@@ -12,7 +6,7 @@ export const calculateDifficulty = (game) => {
 };
 
 const calculateAlienInterval = (difficulty) => {
-  const levels = ALIEN_INTERVAL_LEVELS;
+  const levels = Settings.ALIEN_INTERVAL_LEVELS;
 
   switch (true) {
     case (difficulty <= levels[0]):
@@ -31,7 +25,7 @@ const calculateAlienInterval = (difficulty) => {
 };
 
 export const alienHealth = (difficulty) => {
-  const levels = ALIEN_HEALTH_LEVELS;
+  const levels = Settings.ALIEN_HEALTH_LEVELS;
   const r = Math.random();
 
   switch (true) {
@@ -55,8 +49,8 @@ export const alienHealth = (difficulty) => {
 };
 
 export const alienSpeed = (difficulty) => {
-  const levels = ALIEN_SPEED_LEVELS;
-  const speeds = ALIEN_SPEEDS;
+  const levels = Settings.ALIEN_SPEED_LEVELS;
+  const speeds = Settings.ALIEN_SPEEDS;
   const r = Math.random();
 
   switch (true) {
@@ -86,7 +80,7 @@ export const alienSpeed = (difficulty) => {
 };
 
 export const bulletStrength = (radius) => {
-  const radii = BULLET_RADIUS_STRENGTH;
+  const radii = Settings.BULLET_RADIUS_STRENGTH;
   switch (true) {
     case (radius <= radii[0]):
       return 0.5;

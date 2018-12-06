@@ -164,17 +164,17 @@ export const playerSpriteMap = (direction) => {
 
 export const GAME_WIDTH = 960;
 // Pyramid dimensions
-export const PYR_BOTTOM = 450; //450
-export const PYR_LEFT = 80; //80
+export const PYR_BASE = 450; //450
+export const PYR_LEAD = 80; //80
 export const PYR_DY = 80; //80
 const PYR_SLOPES = 3;
-export const PYR_DX = (GAME_WIDTH - 2 * PYR_LEFT) / (PYR_SLOPES * 4 - 1);
+export const PYR_DX = (GAME_WIDTH - 2 * PYR_LEAD) / (PYR_SLOPES * 4 - 1);
 
 // Game dimensions
 export const GAME_HEIGHT = 540;
 export const PLAYER_WIDTH = 60;
 export const PLAYER_HEIGHT = 93;
-export const PLAYER_BASE_HEIGHT = PYR_BOTTOM - PYR_DY * PYR_SLOPES - PLAYER_HEIGHT;
+export const PLAYER_BASE_HEIGHT = PYR_BASE - PYR_DY * PYR_SLOPES - PLAYER_HEIGHT;
 export const BULLET_HEIGHT = PLAYER_BASE_HEIGHT + 0.35 * PLAYER_HEIGHT;
 export const ALIEN_WIDTH = 52;
 export const ALIEN_HEIGHT = 80;

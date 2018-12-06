@@ -65,10 +65,8 @@ class GameLoop {
   }
 
   animate(time) {
-    const timeStep = time - this.prevTime || 0;
     this.frame = (this.frame + 1) % 60;
-    this.game.step(timeStep, time, this.ctx, this.frame);
-    this.prevTime = time;
+    this.game.step(time, this.ctx, this.frame);
     this.updateScore();
 
     if (this.game.gameover) {
@@ -76,7 +74,6 @@ class GameLoop {
     } else {
       requestAnimationFrame(this.animate.bind(this));
     }
-
   }
 
   endGame() {

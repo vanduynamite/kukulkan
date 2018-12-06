@@ -123,9 +123,9 @@ class Game {
     this.sounds.chargeUp.stop();
   }
 
-  step(timeStep, gameTime, ctx, frame) {
+  step(gameTime, ctx, frame) {
     this.gameTime = gameTime;
-    this.allObjects().forEach(obj => obj.step(timeStep, gameTime));
+    this.allObjects().forEach(obj => obj.step(gameTime));
 
     this.draw(ctx, frame);
 
@@ -189,20 +189,20 @@ class Game {
     ctx.drawImage(this.background, 0, 0, 1920, 662, 0, 209, 960, 331);
     if (this.hitboxes) {
       ctx.beginPath();
-      ctx.moveTo(0, Settings.PYR_BOTTOM - 0 * Settings.PYR_DY);
-      ctx.lineTo(Settings.PYR_LEFT + 0 * Settings.PYR_DX, Settings.PYR_BOTTOM - 0 * Settings.PYR_DY);
-      ctx.lineTo(Settings.PYR_LEFT + 1 * Settings.PYR_DX, Settings.PYR_BOTTOM - 1 * Settings.PYR_DY);
-      ctx.lineTo(Settings.PYR_LEFT + 2 * Settings.PYR_DX, Settings.PYR_BOTTOM - 1 * Settings.PYR_DY);
-      ctx.lineTo(Settings.PYR_LEFT + 3 * Settings.PYR_DX, Settings.PYR_BOTTOM - 2 * Settings.PYR_DY);
-      ctx.lineTo(Settings.PYR_LEFT + 4 * Settings.PYR_DX, Settings.PYR_BOTTOM - 2 * Settings.PYR_DY);
-      ctx.lineTo(Settings.PYR_LEFT + 5 * Settings.PYR_DX, Settings.PYR_BOTTOM - 3 * Settings.PYR_DY);
-      ctx.lineTo(Settings.PYR_LEFT + 6 * Settings.PYR_DX, Settings.PYR_BOTTOM - 3 * Settings.PYR_DY);
-      ctx.lineTo(Settings.PYR_LEFT + 7 * Settings.PYR_DX, Settings.PYR_BOTTOM - 2 * Settings.PYR_DY);
-      ctx.lineTo(Settings.PYR_LEFT + 8 * Settings.PYR_DX, Settings.PYR_BOTTOM - 2 * Settings.PYR_DY);
-      ctx.lineTo(Settings.PYR_LEFT + 9 * Settings.PYR_DX, Settings.PYR_BOTTOM - 1 * Settings.PYR_DY);
-      ctx.lineTo(Settings.PYR_LEFT + 10 * Settings.PYR_DX, Settings.PYR_BOTTOM - 1 * Settings.PYR_DY);
-      ctx.lineTo(Settings.PYR_LEFT + 11 * Settings.PYR_DX, Settings.PYR_BOTTOM - 0 * Settings.PYR_DY);
-      ctx.lineTo(960, Settings.PYR_BOTTOM);
+      ctx.moveTo(0, Settings.PYR_BASE - 0 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEAD + 0 * Settings.PYR_DX, Settings.PYR_BASE - 0 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEAD + 1 * Settings.PYR_DX, Settings.PYR_BASE - 1 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEAD + 2 * Settings.PYR_DX, Settings.PYR_BASE - 1 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEAD + 3 * Settings.PYR_DX, Settings.PYR_BASE - 2 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEAD + 4 * Settings.PYR_DX, Settings.PYR_BASE - 2 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEAD + 5 * Settings.PYR_DX, Settings.PYR_BASE - 3 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEAD + 6 * Settings.PYR_DX, Settings.PYR_BASE - 3 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEAD + 7 * Settings.PYR_DX, Settings.PYR_BASE - 2 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEAD + 8 * Settings.PYR_DX, Settings.PYR_BASE - 2 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEAD + 9 * Settings.PYR_DX, Settings.PYR_BASE - 1 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEAD + 10 * Settings.PYR_DX, Settings.PYR_BASE - 1 * Settings.PYR_DY);
+      ctx.lineTo(Settings.PYR_LEAD + 11 * Settings.PYR_DX, Settings.PYR_BASE - 0 * Settings.PYR_DY);
+      ctx.lineTo(960, Settings.PYR_BASE);
       ctx.stroke();
       ctx.closePath();
     }

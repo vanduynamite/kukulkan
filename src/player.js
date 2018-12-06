@@ -11,6 +11,8 @@ class Player {
 
   constructor(game) {
     this.game = game;
+    this.timeCreated = 0;
+
     this.width = PLAYER_WIDTH;
     this.left = GAME_WIDTH / 2 - this.width / 2;
     this.direction = 1;
@@ -49,10 +51,10 @@ class Player {
     }
   }
 
-  step(timeStep) {
+  step(gameTime) {
     this.height = this.maxHeight - 1 * Math.cos(this.angle);
     this.bottom = PLAYER_BASE_HEIGHT + 1 * Math.cos(this.angle);
-    this.angle += 0.005 * timeStep;
+    this.angle = (gameTime - this.timeCreated) * 0.005;
   }
 
 }

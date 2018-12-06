@@ -11,7 +11,7 @@ class Alien {
     this.dir = Math.sign(Math.random() - 0.5);
     this.leftStart = (Settings.GAME_WIDTH - Settings.ALIEN_WIDTH) / 2 - this.dir * (Settings.GAME_WIDTH + Settings.ALIEN_WIDTH) / 2;
     this.left = this.leftStart;
-    this.bottom = Settings.PYR_BOTTOM - Settings.ALIEN_HEIGHT;
+    this.bottom = Settings.PYR_BASE - Settings.ALIEN_HEIGHT;
 
     this.originalHealth = alienHealth(game.difficulty);
     this.health = this.originalHealth;
@@ -50,20 +50,21 @@ class Alien {
 
   processDamage(damage) {
     this.health -= damage;
+    this.leftStart -= this.dir * damage * 17;
     Settings.hurtSounds(this.health, this.game.sounds).play();
   }
 
-  step(timeStep, gameTime) {
+  step(gameTime) {
     const dt = gameTime - this.timeCreated;
     this.left = this.leftStart + this.speed * dt;
 
     const toe = this.left + Settings.ALIEN_WIDTH * 0.5;
     const halfGameWidth = Settings.GAME_WIDTH / 2;
-    const base = halfGameWidth - (halfGameWidth - Settings.PYR_LEFT) * this.dir;
+    const base = halfGameWidth - (halfGameWidth - Settings.PYR_LEAD) * this.dir;
     const numSections = Math.max((toe - base) / Settings.PYR_DX * this.dir, 0);
     const numLevelsUp = Math.ceil(Math.floor(numSections) / 2);
     const dxUpSlope = numSections % 2 > 1 ? 0 : numSections % 2;
-    const baseBottom = Settings.PYR_BOTTOM - Settings.ALIEN_HEIGHT;
+    const baseBottom = Settings.PYR_BASE - Settings.ALIEN_HEIGHT;
 
     this.bottom =  baseBottom - (numLevelsUp + dxUpSlope) * Settings.PYR_DY;
   }

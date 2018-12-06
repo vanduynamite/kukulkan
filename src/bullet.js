@@ -42,7 +42,7 @@ class Bullet {
     launchSounds(this.radius, this.game.sounds).play();
   }
 
-  step(timeStep, gameTime) {
+  step(gameTime) {
     if (this.moving && this.pos && this.velX) {
       const dt = gameTime - this.timeReleased;
       this.pos[0] = this.startPos[0] + this.velX * dt;
