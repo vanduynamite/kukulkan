@@ -3,10 +3,10 @@ Kukulkan is a JavaScript browser game based on [Action Button Entertainment's][a
 
 Try the game live [here][kukulkan_live]!
 
+![kukulkan_screenshot](https://github.com/vanduynamite/kukulkan/blob/master/screenshots/kukulkan_screenshot_focus.png)
+
 ## Gameplay
 Aliens walk from the edges of the screen up the temple. The game ends if any of them touch you.
-
-Screenshot
 
 You can blast the aliens with your magic though - hold the left or right arrow key (or click on the screen and hold) to charge up your gun, then release to fire the shot. The longer you hold the key, the more powerful the shot.
 
@@ -54,7 +54,6 @@ export const alienSpeed = (difficulty) => {
   }
 };
 ```
-
 ### Alien Position
 A side effect of using `requestAnimationFrame` is that calculations are paused when the window is not active. This is generally good, but some adjustments had to be made for the position of the aliens. In a first iteration, the Y-position of the aliens was based on the time passed, which caused them to go higher than they should have when the page was not active. In the end this was corrected by using some equations to ensure an alien's Y-position is dependent on its X-position.
 
