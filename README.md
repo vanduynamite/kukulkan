@@ -15,7 +15,7 @@ You can blast the aliens with your magic though - hold the left or right arrow k
 ### Mobile Support
 Try opening the live site on a mobile device! Tapping and holding on the left or right of the canvas will charge the shot and everything else works as expected!
 
-![kukulkan_mobile](https://github.com/vanduynamite/kukulkan/blob/master/screenshots/kukulkan_mobile.png =500x576)
+![kukulkan_mobile](https://github.com/vanduynamite/kukulkan/blob/master/screenshots/kukulkan_mobile.png)
 
 ### Settings and Difficulty
 All major calculations are dependent on variables in the `settings.js` file. For instance, the pyramid height, width, and step widths are based on four variables `PYR_DX`, `PYR_DY`, `PYR_LEAD`, and `PYR_BASE`. If these are adjusted, the entire pyramid would change shape and the game would adjust accordingly.
