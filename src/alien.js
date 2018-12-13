@@ -8,7 +8,7 @@ class Alien {
     this.game = game;
     this.timeCreated = game.gameTime;
 
-    this.dir = Math.sign(Math.random() - 0.5);
+    this.dir = Math.random() < 0.5;
     this.leftStart = (Settings.GAME_WIDTH - Settings.ALIEN_WIDTH) / 2 - this.dir * (Settings.GAME_WIDTH + Settings.ALIEN_WIDTH) / 2;
     this.left = this.leftStart;
     this.bottom = Settings.PYR_BASE - Settings.ALIEN_HEIGHT;
